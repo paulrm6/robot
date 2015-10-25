@@ -11,7 +11,7 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.*;
 
 public class Robot extends Frame implements GLEventListener, ActionListener {
-    private static final int WIDTH = 1001;
+    private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
     private static final float NEAR_CLIP = 0.1f;
     private static final float FAR_CLIP = 100.0f;
@@ -26,7 +26,7 @@ public class Robot extends Frame implements GLEventListener, ActionListener {
 
     public Robot() {
         //Title
-        super("Robottest");
+        super("Robottest2");
         setSize(WIDTH, HEIGHT);
 
         GLProfile glp = GLProfile.getDefault();
