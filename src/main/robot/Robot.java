@@ -26,7 +26,7 @@ public class Robot extends Frame implements GLEventListener, ActionListener {
 
     public Robot() {
         //Title
-        super("Robot");
+        super("Robottest");
         setSize(WIDTH, HEIGHT);
 
         GLProfile glp = GLProfile.getDefault();
