@@ -7,6 +7,16 @@ package robot;
  * 1350155458
  */
 public class RobotWaiter {
+    private double x,y;
     public RobotWaiter() {
+    }
+    public void draw() {
+
+    }
+    public double getX() {
+        return x;
+    }
+    public double getY() {
+        return y;
     }
 }
