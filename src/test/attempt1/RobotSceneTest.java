@@ -1,6 +1,4 @@
-package robot;
-
-import static org.junit.Assert.*;
+package attempt1;
 
 /**
  * Created by Paul on 24/10/2015.

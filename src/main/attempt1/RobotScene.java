@@ -1,4 +1,4 @@
-package robot;
+package attempt1;
 
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.glu.GLU;
@@ -58,7 +58,7 @@ public class RobotScene {
     private void robot(GL2 gl, GLUT glut, TheRobot robot) {
         gl.glColor3d(1, 1, 1); //White
         gl.glPushMatrix();
-        gl.glTranslated(robot.getX().doubleValue(), robot.getY().doubleValue(), robot.getZ().doubleValue()); //Move robot
+        gl.glTranslated(robot.getX().doubleValue(), robot.getY().doubleValue(), robot.getZ().doubleValue()); //Move attempt1
         gl.glPushMatrix();
         gl.glScaled(1.5, 4, 1.3);
         glut.glutSolidCube(1);

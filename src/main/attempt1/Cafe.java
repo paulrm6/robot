@@ -1,4 +1,4 @@
-package robot;
+package attempt1;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,7 +10,7 @@ import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.*;
 
-public class Robot extends Frame implements GLEventListener, ActionListener {
+public class Cafe extends Frame implements GLEventListener, ActionListener {
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
     private static final float NEAR_CLIP = 0.1f;
@@ -20,13 +20,13 @@ public class Robot extends Frame implements GLEventListener, ActionListener {
     private GLCanvas canvas;
 
     public static void main(String[] args) {
-        Robot robot = new Robot();
-        robot.setVisible(true);
+        Cafe cafe = new Cafe();
+        cafe.setVisible(true);
     }
 
-    public Robot() {
+    public Cafe() {
         //Title
-        super("Robot");
+        super("Cafe");
         setSize(WIDTH, HEIGHT);
 
         GLProfile glp = GLProfile.getDefault();
@@ -54,7 +54,7 @@ public class Robot extends Frame implements GLEventListener, ActionListener {
         Button worldLighting = new Button("World Lighting");
         worldLighting.addActionListener(this);
         p.add(worldLighting);
-        Button robotLight = new Button("Robot Light");
+        Button robotLight = new Button("Cafe Light");
         robotLight.addActionListener(this);
         p.add(robotLight);
         this.add(p, "South");
@@ -73,7 +73,7 @@ public class Robot extends Frame implements GLEventListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equalsIgnoreCase("World Lighting")) {
 
-        } else if (e.getActionCommand().equalsIgnoreCase("Robot Light")) {
+        } else if (e.getActionCommand().equalsIgnoreCase("Cafe Light")) {
 
         } else if (e.getActionCommand().equalsIgnoreCase("Quit"))
             System.exit(0);
