@@ -117,9 +117,11 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         gl.glEnable(GL.GL_CULL_FACE);
         gl.glFrontFace(GL.GL_CCW);
         gl.glCullFace(GL.GL_BACK);
-        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_LINE);
-
-        scene = new RobotRestaurantScene();
+        gl.glShadeModel(GL2.GL_SMOOTH);
+        gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        gl.glEnable(GL2.GL_LIGHTING);
+        gl.glEnable(GL2.GL_NORMALIZE);
+        scene = new RobotRestaurantScene(gl);
     }
 
     @Override
