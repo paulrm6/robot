@@ -1,10 +1,11 @@
 package robot;
 
-import java.awt.*;
-import java.awt.event.*;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.util.*;
+import com.jogamp.opengl.util.FPSAnimator;
+
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * Created by Paul on 10/11/2015.

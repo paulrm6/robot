@@ -1,14 +1,6 @@
 package robot;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.util.awt.ImageUtil;
-import com.jogamp.opengl.util.texture.Texture;
-import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
 /**
  * Created by Paul on 10/11/2015.

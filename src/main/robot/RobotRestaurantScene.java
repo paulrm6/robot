@@ -1,7 +1,7 @@
 package robot;
 
-import com.jogamp.opengl.*;
-import com.jogamp.opengl.util.*;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 
