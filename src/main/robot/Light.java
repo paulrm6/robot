@@ -1,7 +1,6 @@
 package robot;
 
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * Created by Paul on 02/12/2015.
@@ -26,15 +25,30 @@ public class Light{
             spotDirection;
     private float spotAngle;
 
+    /**
+     * Constructor.
+     * Index should be in range GL2.GL_LIGHT0 to GL2.GL_LIGHT8.
+     * @param index Index value for the openGL light
+     * @param position Position of the light source
+     */
     public Light (int index, float[] position) {
         this.index = index;
         this.position = position.clone();
     }
 
-    public void spotlight(float angle, float[] direction) {
+    /**
+     * Constructor for a spotlight.
+     * @param index Index value for the openGL light
+     * @param position Position of the light source position[3] should be 1
+     * @param angle Angle of the cut-off (a smaller angle means a tighter spotlight)
+     * @param direction Direction that the spotlight is pointing in
+     */
+    public Light (int index, float[] position, float angle, float[] direction) {
+        this.index = index;
+        this.position = position.clone();
         //Make sure light is set to positional
-        if(position[3] != 1) {
-            position[3] = 1;
+        if(this.position[3] != 1) {
+            this.position[3] = 1;
         }
         //Set variables defining the spotlights behaviour
         spotAngle = angle;
@@ -42,10 +56,19 @@ public class Light{
         spotlight = true;
     }
 
+    /**
+     * A function to turn on and off the current object
+     * @param on True to turn light on, false to turn light off
+     */
     public void setOn(boolean on) {
         this.on = on;
     }
 
+    /**
+     * A function to enable or disable the current openGL light
+     * @param gl openGL context
+     * @param enable True to enable light, false to disable
+     */
     public void setEnable(GL2 gl,boolean enable) {
         if(enable) {
             gl.glEnable(index);
@@ -54,7 +77,12 @@ public class Light{
         }
     }
 
-    public void deploy(GL2 gl, GLUT glut, boolean visible) {
+    /**
+     * If the light is on, then call all the relevant openGL commands
+     * to enable and set the params for this light
+     * @param gl openGL context
+     */
+    public void deploy(GL2 gl) {
         //If light is on
         if(on) {
             //Enable light and set properties

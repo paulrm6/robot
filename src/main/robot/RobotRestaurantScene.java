@@ -26,8 +26,7 @@ public class RobotRestaurantScene {
     public RobotRestaurantScene(GL2 gl) {
         float[] position = {0,10,0,1};
         float[] direction = {-0,-10,-0};
-        spot1 = new Light(GL2.GL_LIGHT2,position);
-        spot1.spotlight(20f,direction);
+        spot1 = new Light(GL2.GL_LIGHT2,position,20f,direction);
         float[] globalPos0 = {10,10,10,0};
         float[] globalPos1 = {-10,-10,-10,0};
         global1 = new Light(GL2.GL_LIGHT0,globalPos0);
@@ -48,10 +47,10 @@ public class RobotRestaurantScene {
             glu.gluLookAt(30.0, 13.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
         }
 
-        spot1.deploy(gl,glut,true);
-        global1.deploy(gl,glut,true);
+        spot1.deploy(gl);
+        global1.deploy(gl);
         global1.setOn(withWorldLighting);
-        global2.deploy(gl,glut,true);
+        global2.deploy(gl);
         global2.setOn(withWorldLighting);
 
 
