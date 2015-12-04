@@ -6,6 +6,10 @@ package robot;
  *
  * @author    Dr Steve Maddock
  * @version   3.1 (28/10/2015)
+ *
+ * Utilised by Paul MacDonald.
+ * prmacdonald1@sheffield.ac.uk
+ * 1350155458
  */
 
 public class Triangle implements Cloneable {
