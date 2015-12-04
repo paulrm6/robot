@@ -22,7 +22,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 
 public class Table {
     private double x, z, h, w, d;
-    private Texture tex;
+    private Texture table;
     private Mesh meshCube;
     private RenderMesh cube;
     public Table(double x, double z, double h, double w, double d) {
@@ -32,11 +32,11 @@ public class Table {
         this.w = w;
         this.d = d;
     }
-    public void create(GL2 gl) {
-        tex = loadTexture(gl, "woodFloor.jpg");
 
+    public void create(GL2 gl) {
+        table = RobotRestaurantScene.loadTexture(gl, "table.jpg");
         meshCube = ProceduralMeshFactory.createHardCube();
-        cube = new RenderMesh(meshCube, tex);
+        cube = new RenderMesh(meshCube, table);
     }
 
     public void render(GL2 gl) {
@@ -58,33 +58,4 @@ public class Table {
             }
         gl.glPopMatrix();
     }
-
-    private Texture loadTexture(GL2 gl, String filename) {
-        Texture tex = null;
-        // since file loading is involved, must use try...catch
-        try {
-            File f = new File(filename);
-
-            // The following line results in a texture that is flipped vertically (i.e. is upside down)
-            // due to OpenGL and Java (0,0) position being different:
-            //tex = TextureIO.newTexture(new File(filename), false);
-
-            // So, instead, use the following three lines which flip the image vertically:
-            BufferedImage img = ImageIO.read(f); // read file into BufferedImage
-            ImageUtil.flipImageVertically(img);
-
-            // No mip-mapping.
-            tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
-
-            // Different filter settings can be used to give different effects when the texture
-            // is applied to a set of polygons.
-            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-
-        }
-        catch(Exception e) {
-            System.out.println("Error loading texture " + filename);
-        }
-        return tex;
-    } // end of loadTexture()
 }
