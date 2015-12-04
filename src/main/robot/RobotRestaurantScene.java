@@ -27,24 +27,27 @@ public class RobotRestaurantScene {
     private RobotWaiter theRobot = new RobotWaiter();
     private Table table1,table2,table3;
     private Restaurant restaurant;
-    private Light global1,global2,spot1,spot2,robotLight1;
+    private Light global1,global2,global3,spot1,spot2,robotLight1;
     private double frontLean=0,sideLean = 0;
     private double addTilt = 1;
+    private Camera camera;
 
-    public RobotRestaurantScene(GL2 gl) {
+    public RobotRestaurantScene(GL2 gl, Camera camera) {
         float[] spot1position = {-3,10,-7,1};
         float[] spot1direction = {0,-10,0};
         float[] spot2position = {-7,10,6,1};
         float[] spot2direction = {0,-10,0};
-        spot1 = new Light(GL2.GL_LIGHT2,spot1position,20f,spot1direction);
-        spot2 = new Light(GL2.GL_LIGHT3,spot2position,20f,spot2direction);
-        float[] globalPos0 = {10,10,10,0};
-        float[] globalPos1 = {-10,-10,-10,0};
+        spot1 = new Light(GL2.GL_LIGHT3,spot1position,20f,spot1direction);
+        spot2 = new Light(GL2.GL_LIGHT4,spot2position,20f,spot2direction);
+        float[] globalPos0 = {0,10,0,0};
+        float[] globalPos1 = {-10,0,-10,0};
+        float[] globalPos2 = {10,0,10,0};
         global1 = new Light(GL2.GL_LIGHT0,globalPos0);
         global2 = new Light(GL2.GL_LIGHT1,globalPos1);
+        global3 = new Light(GL2.GL_LIGHT2,globalPos2);
         float[] robotLight1Pos = {(float)theRobot.getX(),3.7f,(float)theRobot.getZ(),1f};
         float[] robotLight1Dir = {(float)theRobot.getLookX(),0,(float)theRobot.getLookZ()};
-        robotLight1 = new Light(GL2.GL_LIGHT4,robotLight1Pos,20f,robotLight1Dir);
+        robotLight1 = new Light(GL2.GL_LIGHT5,robotLight1Pos,20f,robotLight1Dir);
         restaurant = new Restaurant(gl,9,25,30);
         restaurant.create(gl);
         table1 = new Table(2,10,2.5,3.5,3);
@@ -53,6 +56,7 @@ public class RobotRestaurantScene {
         table1.create(gl);
         table2.create(gl);
         table3.create(gl);
+        this.camera = camera;
     }
 
     public void render(GL2 gl, boolean withWorldLighting, boolean withRobotLight, boolean robotPerspective) {
@@ -64,13 +68,15 @@ public class RobotRestaurantScene {
         }
         //If perspective is arbitrary
         else {
-            glu.gluLookAt(0.0, 15.0, 40.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+            camera.view(glu);
         }
 
         spot1.deploy(gl);
         spot2.deploy(gl);
         global1.deploy(gl);
         global1.setOn(withWorldLighting);
+        global3.deploy(gl);
+        global3.setOn(withWorldLighting);
         global2.deploy(gl);
         global2.setOn(withWorldLighting);
         float[] robotLight1Pos = {(float)theRobot.getX(),3.7f,(float)theRobot.getZ(),1f};

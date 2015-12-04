@@ -25,6 +25,7 @@ public class Table {
     private Texture table;
     private Mesh meshCube;
     private RenderMesh cube;
+    private Material mat;
     public Table(double x, double z, double h, double w, double d) {
         this.x = x;
         this.z = z;
@@ -36,6 +37,8 @@ public class Table {
     public void create(GL2 gl) {
         table = RobotRestaurantScene.loadTexture(gl, "table.jpg");
         meshCube = ProceduralMeshFactory.createHardCube();
+        Material mat = meshCube.getMaterial();
+        mat.setDiffuse(1.0f,1.0f,1.0f,1f);
         cube = new RenderMesh(meshCube, table);
     }
 
