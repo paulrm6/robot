@@ -2,8 +2,16 @@ package robot;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.util.awt.ImageUtil;
 import com.jogamp.opengl.util.gl2.GLUT;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 /**
  * Created by Paul on 10/11/2015.
@@ -11,6 +19,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * prmacdonald1@sheffield.ac.uk
  * 1350155458
  */
+
 public class RobotRestaurantScene {
     private final double MAX_LEAN = 15;
     private GLU glu = new GLU();
@@ -33,6 +42,12 @@ public class RobotRestaurantScene {
         global2 = new Light(GL2.GL_LIGHT1,globalPos1);
         restaurant = new Restaurant(gl,20,20,20);
         restaurant.create(gl);
+        table1 = new Table(4,5,2.5,3.5,3);
+        table2 = new Table(-3,-7,2.5,3.5,3);
+        table3 = new Table(4,-9,2.5,3.5,3);
+        table1.create(gl);
+        table2.create(gl);
+        table3.create(gl);
     }
 
     public void render(GL2 gl, boolean withWorldLighting, boolean withRobotLight, boolean robotPerspective) {
@@ -44,7 +59,7 @@ public class RobotRestaurantScene {
         }
         //If perspective is arbitrary
         else {
-            glu.gluLookAt(30.0, 13.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+            glu.gluLookAt(0.0, 13.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
         }
 
         spot1.deploy(gl);
@@ -59,6 +74,9 @@ public class RobotRestaurantScene {
             theRobot.draw(gl, glut);
         gl.glPopMatrix();
         restaurant.render(gl);
+        table1.render(gl);
+        table2.render(gl);
+        table3.render(gl);
         drawAxes(gl);
 
     }
@@ -87,4 +105,5 @@ public class RobotRestaurantScene {
         sideLean += addTilt;
         theRobot.setRobotTilt(0.3,sideLean);
     }
+
 }

@@ -8,6 +8,7 @@ import com.jogamp.opengl.GL2;
  * prmacdonald1@sheffield.ac.uk
  * 1350155458
  */
+
 public class Restaurant {
     private final int POINTS_X = 200, POINTS_Y = 200;
     private final double TILES_X = 1, TILES_Y = 1;

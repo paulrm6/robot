@@ -25,11 +25,6 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     private Checkbox worldLighting, robotLight;
     private boolean withWorldLighting = true, withRobotLight = true, robotPerspective = false;
 
-    public static void main(String[] args) {
-        RobotRestaurant robotRestaurant =   new RobotRestaurant();
-        robotRestaurant.setVisible(true);
-    }
-
     public RobotRestaurant() {
         //Set title of window
         super("Paul's Robot Restaurant");
@@ -155,5 +150,10 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     @Override
     public void dispose(GLAutoDrawable glAutoDrawable) {
 
+    }
+
+    public static void main(String[] args) {
+        RobotRestaurant robotRestaurant =   new RobotRestaurant();
+        robotRestaurant.setVisible(true);
     }
 }

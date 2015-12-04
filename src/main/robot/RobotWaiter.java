@@ -9,6 +9,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * prmacdonald1@sheffield.ac.uk
  * 1350155458
  */
+
 public class RobotWaiter {
     private final float[] AMBIENT = {0.2f,0.2f,0.2f,1.0f}; //dark grey
     private final float[] COLOUR = {0.8f,0.8f,0.8f,1.0f}; //grey
