@@ -102,4 +102,12 @@ public class Light{
             gl.glDisable(index);
         }
     }
+
+    public void setPosition(float[] position) {
+        this.position = position.clone();
+    }
+
+    public void setSpotDirection(float[] spotDirection) {
+        this.spotDirection = spotDirection.clone();
+    }
 }
