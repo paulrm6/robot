@@ -70,22 +70,7 @@ public class RobotRestaurantScene {
         else {
             camera.view(glu);
         }
-
-        spot1.deploy(gl);
-        spot2.deploy(gl);
-        global1.deploy(gl);
-        global1.setOn(withWorldLighting);
-        global3.deploy(gl);
-        global3.setOn(withWorldLighting);
-        global2.deploy(gl);
-        global2.setOn(withWorldLighting);
-        float[] robotLight1Pos = {(float)theRobot.getX(),3.7f,(float)theRobot.getZ(),1f};
-        float[] robotLight1Dir = {(float)theRobot.getLookX(),-0.2f,(float)theRobot.getLookZ()};
-        robotLight1.setPosition(robotLight1Pos);
-        robotLight1.setSpotDirection(robotLight1Dir);
-        robotLight1.deploy(gl);
-        robotLight1.setOn(withRobotLight);
-
+        deployLights(gl,withWorldLighting,withRobotLight);
 
         gl.glPushMatrix();
             theRobot.draw(gl, glut, withRobotLight);
@@ -98,7 +83,7 @@ public class RobotRestaurantScene {
 
     }
 
-    public void drawAxes(GL2 gl) {
+    private void drawAxes(GL2 gl) {
         gl.glDisable(GL2.GL_LIGHTING);
         double x = 1.5, y = 1.5, z = 3;
         gl.glLineWidth(4);
@@ -116,6 +101,22 @@ public class RobotRestaurantScene {
         gl.glLineWidth(1);
         gl.glEnable(GL2.GL_LIGHTING);
     }
+
+    private void deployLights(GL2 gl,boolean worldLight, boolean robotLight) {
+        spot1.deploy(gl);
+        spot2.deploy(gl);
+        global1.deploy(gl);
+        global2.deploy(gl);
+        global3.deploy(gl);
+        robotLight1.setPosition(new float[] {(float)theRobot.getX(),3.7f,(float)theRobot.getZ(),1f});
+        robotLight1.setSpotDirection(new float[]{(float)theRobot.getLookX(),-0.2f,(float)theRobot.getLookZ()});
+        robotLight1.deploy(gl);
+        global1.setOn(worldLight);
+        global3.setOn(worldLight);
+        global2.setOn(worldLight);
+        robotLight1.setOn(robotLight);
+    }
+
     public void update() {
         theRobot.setRotate((theRobot.getRotate()+1)%360);
         theRobot.updateLookXZ();

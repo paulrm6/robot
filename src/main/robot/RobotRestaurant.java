@@ -20,7 +20,6 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     private static final float NEAR_CLIP = 0.1f;
     private static final float FAR_CLIP = 100.0f;
     public static final int FRAMES_PER_SEC = 30;
-    private double radius,theta,phi;
     private Camera camera;
     private Point lastpoint;
     private RobotRestaurantScene scene;
