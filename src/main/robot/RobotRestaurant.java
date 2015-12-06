@@ -24,8 +24,8 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     private Point lastpoint;
     private RobotRestaurantScene scene;
     private GLCanvas canvas;
-    private Checkbox worldLighting, robotLight;
-    private boolean withWorldLighting = true, withRobotLight = true, robotPerspective = false;
+    private Checkbox worldLighting, robotLight, spotlight;
+    private boolean withWorldLighting = true, withRobotLight = true, robotPerspective = false, withSpotlight=true;
     private boolean continuousAnimation;
 
     public RobotRestaurant() {
@@ -57,6 +57,10 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         robotLight = new Checkbox("Robot Light", withRobotLight);
         robotLight.addItemListener(this);
         p.add(robotLight);
+        //Checkbox for the spotlights
+        spotlight = new Checkbox("Spotlights", withSpotlight);
+        spotlight.addItemListener(this);
+        p.add(spotlight);
         //Button to change perspective to and from the robot
         Button perspective = new Button("Change Perspective");
         perspective.addActionListener(this);
@@ -134,6 +138,12 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
             withRobotLight = robotLight.getState();
             canvas.repaint();
         }
+        //If robotLight is clicked
+        else if (source == spotlight) {
+            //Change the state of the withRobotLight variable
+            withSpotlight = spotlight.getState();
+            canvas.repaint();
+        }
     }
 
     @Override
@@ -150,7 +160,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         gl.glEnable(GL2.GL_NORMALIZE);
         double radius = 50.0; //distance of the camera from world origin
         double theta = Math.toRadians(-90); // theta rotates anticlockwise around y axis
-        double phi = Math.toRadians(30);  // phi is inclination from ground plane
+        double phi = Math.toRadians(5);  // phi is inclination from ground plane
         camera = new Camera(theta, phi, radius);
         scene = new RobotRestaurantScene(gl,camera);
     }
@@ -159,7 +169,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     public void display(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
         if (continuousAnimation) scene.update();
-        scene.render(gl, withWorldLighting, withRobotLight, robotPerspective);
+        scene.render(gl, withWorldLighting, withRobotLight, robotPerspective, withSpotlight);
     }
 
     @Override

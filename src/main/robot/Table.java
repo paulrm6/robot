@@ -47,7 +47,7 @@ public class Table {
             gl.glTranslated(x,h,z);
             //draw tablebody
             gl.glPushMatrix();
-                tableTop.renderImmediateMode(gl, true);
+                tableTop.renderDisplayList(gl);
             gl.glPopMatrix();
             for(int i =-1; i<2;i+=2){
                 for(int n =-1; n<2;n+=2) {

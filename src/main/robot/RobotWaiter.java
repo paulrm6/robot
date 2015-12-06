@@ -2,6 +2,7 @@ package robot;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
@@ -23,6 +24,8 @@ public class RobotWaiter {
     private double sideTilt=0, frontTilt=0;
     private double headTilt = 0;
     private double trayArm = 0;
+
+    private boolean perspective;
     public RobotWaiter() {
     }
     public void draw(GL2 gl, GLUT glut, boolean withRobotLight) {
@@ -43,32 +46,35 @@ public class RobotWaiter {
                 drawArm(gl,glut,true,-15,(-60-sideTilt),true);
                 //draw right arm
                 drawArm(gl,glut,false,-50,(-40-sideTilt),false);
+                if(!perspective) {
                 //draw neck
                 gl.glPushMatrix();
                     gl.glTranslated(0.15,2.5,0);
                     drawCylinder(gl,glut,0.2,0.2);
                     //draw head
-                    gl.glPushMatrix();
-                        gl.glTranslated(0,0.2,0);
-                        gl.glRotated(headTilt,0,0,1);
-                        drawRectangle(gl,glut,1,0.9,0.9,0);
+                        gl.glPushMatrix();
+                        gl.glTranslated(0, 0.2, 0);
+                        gl.glRotated(headTilt, 0, 0, 1);
+                        drawRectangle(gl, glut, 1, 0.9, 0.9, 0);
                         //set eye emission
-                        if(withRobotLight) {
+                        if (withRobotLight) {
                             float[] yellowish = {1.0f, 1.0f, 0.6f, 1.0f};
                             gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, yellowish, 0);
                         }
                         //draw left eye
+                        gl.glTranslated(0.45, 0.7, 0);
                         gl.glPushMatrix();
-                            gl.glTranslated(0.45,0.7,0.2);
-                            glut.glutSolidSphere(0.1,RESOLUTION,RESOLUTION);
+                        gl.glTranslated(0, 0, 0.2);
+                        glut.glutSolidSphere(0.1, RESOLUTION, RESOLUTION);
                         gl.glPopMatrix();
                         //draw right eye
                         gl.glPushMatrix();
-                            gl.glTranslated(0.45,0.7,-0.2);
-                            glut.glutSolidSphere(0.1,RESOLUTION,RESOLUTION);
+                        gl.glTranslated(0, 0, -0.2);
+                        glut.glutSolidSphere(0.1, RESOLUTION, RESOLUTION);
                         gl.glPopMatrix();
-                    gl.glPopMatrix();
+                        gl.glPopMatrix();
                 gl.glPopMatrix();
+                }
             gl.glPopMatrix();
         gl.glPopMatrix();
 
@@ -143,7 +149,7 @@ public class RobotWaiter {
         gl.glPushMatrix();
             gl.glTranslated(0.2,0,-0.2);
             drawCylinder(gl,glut,0.3,0.05);
-            gl.glTranslated(0,0.6,0);
+            gl.glTranslated(0,0.5,0);
             gl.glRotated(180,0,0,1);
             drawCone(gl,glut,0.2,0.3);
         gl.glPopMatrix();
@@ -218,9 +224,12 @@ public class RobotWaiter {
         lookZ = Math.cos(radAngle);
     }
 
+    public void setPerspective(boolean perspective) {
+        this.perspective = perspective;
+    }
+
     public void setRobotTilt(double front, double side) {
         frontTilt = front;
         sideTilt = side;
     }
-
 }
