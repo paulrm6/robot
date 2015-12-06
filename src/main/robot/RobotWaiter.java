@@ -53,8 +53,8 @@ public class RobotWaiter {
                         drawRectangle(gl,glut,1,0.9,0.9,0);
                         //set eye emission
                         if(withRobotLight) {
-                            float[] matEmission = {1.0f, 1.0f, 1.0f, 1.0f};
-                            gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
+                            float[] yellowish = {1.0f, 1.0f, 0.6f, 1.0f};
+                            gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, yellowish, 0);
                         }
                         //draw left eye
                         gl.glPushMatrix();

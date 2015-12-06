@@ -141,7 +141,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         GL2 gl = glAutoDrawable.getGL().getGL2();
         gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //black background
         gl.glEnable(GL.GL_DEPTH_TEST);
-        gl.glEnable(GL.GL_CULL_FACE);
+        gl.glDisable(GL.GL_CULL_FACE);
         gl.glFrontFace(GL.GL_CCW);
         gl.glCullFace(GL.GL_BACK);
         gl.glShadeModel(GL2.GL_SMOOTH);

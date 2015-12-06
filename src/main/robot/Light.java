@@ -1,6 +1,7 @@
 package robot;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * Created by Paul on 02/12/2015.
@@ -82,7 +83,7 @@ public class Light{
      * to enable and set the params for this light
      * @param gl openGL context
      */
-    public void deploy(GL2 gl) {
+    public void deploy(GL2 gl, GLUT glut, boolean show) {
         //If light is on
         if(on) {
             //Enable light and set properties
@@ -96,6 +97,25 @@ public class Light{
                 //Set extra properties
                 gl.glLightf(index,GL2.GL_SPOT_CUTOFF, spotAngle);
                 gl.glLightfv(index,GL2.GL_SPOT_DIRECTION, spotDirection,0);
+            }
+            if (show) {
+                float[] yellowish = {1.0f, 1.0f, 0.6f, 1.0f};
+                float[] black = {0.0f, 0.0f, 0.0f, 1.0f};
+                gl.glPushMatrix();
+                    gl.glTranslated(position[0],position[1],position[2]);
+                    gl.glPushMatrix();
+                        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, black, 0);
+                        gl.glRotated(90,1,0,0);
+                        glut.glutSolidCylinder(0.05,1,20,20);
+                    gl.glPopMatrix();
+                    gl.glTranslated(0,-1,0);
+                    gl.glPushMatrix();
+                        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, yellowish, 0);
+                        gl.glScaled(0.2,0.2,0.2);
+                        glut.glutSolidSphere(1,20,20);
+                    gl.glPopMatrix();
+                gl.glPopMatrix();
+                gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, black, 0);
             }
         } else {
             //Disable light

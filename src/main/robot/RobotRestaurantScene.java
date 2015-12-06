@@ -41,11 +41,11 @@ public class RobotRestaurantScene {
             new Light(GL2.GL_LIGHT2, new float[]{10.0f, 0.0f, 10.0f, 0.0f})};
     private Light[] spots = {
             new Light(GL2.GL_LIGHT3,
-                    new float[]{-3.0f, 10.0f, -7.0f, 1.0f}, 25f,
-                    new float[]{0.0f, -10.0f, 0.0f}),
+                    new float[]{-3.0f, 9.0f, -7.0f, 1.0f}, 25f,
+                    new float[]{0.0f, -9.0f, 0.0f}),
             new Light(GL2.GL_LIGHT4,
-                    new float[]{-7.0f, 10.0f, 6.0f, 1.0f}, 25f,
-                    new float[]{0.0f, -10.0f, 0.0f})};
+                    new float[]{-7.0f, 9.0f, 6.0f, 1.0f}, 25f,
+                    new float[]{0.0f, -9.0f, 0.0f})};
     private Light robotLight = new Light(GL2.GL_LIGHT5,
                         new float[] {0.0f,4.6f,0.0f,1.0f},20f,
                         new float[] {0.0f,0.0f,1.0f});
@@ -105,10 +105,11 @@ public class RobotRestaurantScene {
         }
         //deploy the lights
         deployLights(gl,withWorldLighting,withRobotLight);
-
         //render the robot, restaurant and tables
+        gl.glEnable(GL.GL_CULL_FACE);
         theRobot.draw(gl, glut, withRobotLight);
         restaurant.render(gl);
+        gl.glDisable(GL.GL_CULL_FACE);
         for(Table table: tables) {
             table.render(gl);
         }
@@ -124,14 +125,14 @@ public class RobotRestaurantScene {
         //Iterate through the spotlights
         for(Light spot: spots) {
             //Deploy the spotlight
-            spot.deploy(gl);
+            spot.deploy(gl,glut,true);
         }
         //Iterate through the world lights
         for(Light light: globalLights) {
             //Set the world light on or off
             light.setOn(withWorldLight);
             //Deploy the world light
-            light.deploy(gl);
+            light.deploy(gl,glut,false);
         }
         //Set the position of the robot light (based on the position of the robot
         robotLight.setPosition(new float[] {(float)theRobot.getX(),4.6f,(float)theRobot.getZ(),1f});
@@ -140,7 +141,7 @@ public class RobotRestaurantScene {
         //Set the robot light on or off
         robotLight.setOn(withRobotLight);
         //Deploy the robot light
-        robotLight.deploy(gl);
+        robotLight.deploy(gl,glut,false);
     }
 
     public void update() {
