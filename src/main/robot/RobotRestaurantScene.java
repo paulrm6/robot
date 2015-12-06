@@ -28,7 +28,6 @@ public class RobotRestaurantScene {
     private AnimationScene animationScene = new AnimationScene();
     private RobotWaiter theRobot = new RobotWaiter();
     private Restaurant restaurant;
-    private boolean nearTable;
     //Create instances of the tables
     private Table[] tables = {
             new Table(2, 10, 2.0, 3.5, 3),
@@ -48,7 +47,7 @@ public class RobotRestaurantScene {
                     new float[]{-7.0f, 9.0f, 6.0f, 1.0f}, 25f,
                     new float[]{0.0f, -9.0f, 0.0f})};
     private Light robotLight = new Light(GL2.GL_LIGHT5,
-            new float[]{0.0f, 4.6f, 0.0f, 1.0f}, 20f,
+            new float[]{0.0f, 4.6f, 0.0f, 1.0f}, 25f,
             new float[]{0.0f, 0.0f, 1.0f});
 
     /**
@@ -70,6 +69,7 @@ public class RobotRestaurantScene {
 
     /**
      * A method to load textures.
+     * Taken from Steve Maddock's Lab classes
      *
      * @param gl       openGL context
      * @param filename the filename to load
@@ -96,7 +96,6 @@ public class RobotRestaurantScene {
      * A method to start the animation
      */
     public void startAnim() {
-        //Starts the animator
         animationScene.startAnimation();
     }
 
@@ -104,7 +103,6 @@ public class RobotRestaurantScene {
      * A method to stop/pause the animation
      */
     public void stopAnim() {
-        //Pauses the animator
         animationScene.pauseAnimation();
     }
 
@@ -112,19 +110,29 @@ public class RobotRestaurantScene {
      * A method to reset the animation to the starting values
      */
     public void resetAnim() {
-        //Resets the animator
         animationScene.reset();
         //Replaces the old robot waiter with a new one to clean params
         theRobot = new RobotWaiter();
     }
 
+    /**
+     * A method to render all the objects in the scene
+     *
+     * @param gl openGL context
+     * @param withWorldLighting boolean, true if world lighting is on
+     * @param withRobotLight boolean, true if the robot light is on
+     * @param robotPerspective boolean, true if we are looking from the robots perspective
+     * @param withSpotlight boolean, true if the spotlights are on
+     */
     public void render(GL2 gl, boolean withWorldLighting, boolean withRobotLight, boolean robotPerspective, boolean withSpotlight) {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
         //If perspective is from the robot
         if (robotPerspective) {
+            //Rotate according to lean and head tilt
             gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_LEAN_F), 1, 0, 0);
             gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_HEAD), -1, 0, 0);
+            //Center camera at the robots position, pointing in his direction, facing up
             glu.gluLookAt(theRobot.getX(), 4.7f, theRobot.getZ(),
                     theRobot.getX() + theRobot.getLookX(), 4.2f, theRobot.getZ() + theRobot.getLookZ(),
                     0.0, 1.0, 0.0);
@@ -135,10 +143,10 @@ public class RobotRestaurantScene {
         //deploy the lights
         deployLights(gl, withWorldLighting, withRobotLight, withSpotlight);
         //render the robot, restaurant and tables
-        gl.glEnable(GL.GL_CULL_FACE);
         theRobot.draw(gl, glut, withRobotLight);
+        gl.glEnable(GL.GL_CULL_FACE);//enable face culling for the restaurant
         restaurant.render(gl);
-        gl.glDisable(GL.GL_CULL_FACE);
+        gl.glDisable(GL.GL_CULL_FACE);//disable face culling
         for (Table table : tables) {
             table.render(gl);
         }
@@ -168,7 +176,7 @@ public class RobotRestaurantScene {
         }
         //Set the position of the robot light (based on the position of the robot
         gl.glPushMatrix();
-        gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_HEAD) * 0.5, -1, 0, 0);
+        gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_HEAD)*0.5, -1, 0, -1);
         robotLight.setPosition(new float[]{(float) theRobot.getX(), 4.6f, (float) theRobot.getZ(), 1f});
         //Set the direction of the robot light (based on the direction of the robot)
         robotLight.setSpotDirection(new float[]{(float) theRobot.getLookX(), -0.7f, (float) theRobot.getLookZ()});
@@ -179,15 +187,25 @@ public class RobotRestaurantScene {
         gl.glPopMatrix();
     }
 
+    /**
+     * A method to update the scene to new values
+     */
     public void update() {
+        //Update the animation scene
         animationScene.update();
-        theRobot.setRotate(Math.toRadians(animationScene.getParam(AnimationScene.ROBOT_ROTATE)));
-        theRobot.setX(animationScene.getParam(AnimationScene.ROBOT_X_PARAM));
-        theRobot.setZ(animationScene.getParam(AnimationScene.ROBOT_Z_PARAM));
-        theRobot.setRobotTilt(animationScene.getParam(AnimationScene.ROBOT_LEAN_F),
-                animationScene.getParam(AnimationScene.ROBOT_LEAN_S));
-        theRobot.setHeadTilt(animationScene.getParam(AnimationScene.ROBOT_HEAD));
-        theRobot.setTrayArm(animationScene.getParam(AnimationScene.ROBOT_TRAY_ARM));
-        theRobot.updateLookXZ();
+        //Set the parameters of the robot according to the animation scene
+        double robotRotate = animationScene.getParam(AnimationScene.ROBOT_ROTATE);
+        double robotX = animationScene.getParam(AnimationScene.ROBOT_X_PARAM);
+        double robotY = animationScene.getParam(AnimationScene.ROBOT_Z_PARAM);
+        double robotLeanF = animationScene.getParam(AnimationScene.ROBOT_LEAN_F);
+        double robotLeanS = animationScene.getParam(AnimationScene.ROBOT_LEAN_S);
+        double robotHeadTilt = animationScene.getParam(AnimationScene.ROBOT_HEAD);
+        double robotTrayArm = animationScene.getParam(AnimationScene.ROBOT_TRAY_ARM);
+        theRobot.setRotate(Math.toRadians(robotRotate));
+        theRobot.setX(robotX);
+        theRobot.setZ(robotY);
+        theRobot.setRobotTilt(robotLeanF, robotLeanS);
+        theRobot.setHeadTilt(robotHeadTilt);
+        theRobot.setTrayArm(robotTrayArm);
     }
 }
