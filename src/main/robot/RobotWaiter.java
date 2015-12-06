@@ -1,5 +1,6 @@
 package robot;
 
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 
@@ -12,7 +13,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 
 public class RobotWaiter {
     private final float[] AMBIENT = {0.2f,0.2f,0.2f,1.0f}; //dark grey
-    private final float[] COLOUR = {0.8f,0.8f,0.8f,1.0f}; //grey
+    private final float[] ROBOT_COLOUR = {0.8f,0.8f,0.8f,1.0f}; //grey
     private final int RESOLUTION = 100;
     private double x = 0;
     private double z = 0;
@@ -26,7 +27,7 @@ public class RobotWaiter {
     }
     public void draw(GL2 gl, GLUT glut, boolean withRobotLight) {
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, AMBIENT, 0);
-        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, COLOUR, 0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, ROBOT_COLOUR, 0);
 
         gl.glPushMatrix();
             gl.glTranslated(x,0,z);
@@ -79,8 +80,7 @@ public class RobotWaiter {
         if (leftSide) {
             angle = 90;
             side = 1;
-            rotateArm=rotateArm+0.5*trayArm-sideTilt;
-
+            rotateArm=rotateArm+0.5*trayArm;
         } else {
             angle = 270;
             side = -1;
@@ -118,7 +118,7 @@ public class RobotWaiter {
                 gl.glPushMatrix();
                 if(leftSide) {
                     gl.glTranslated(0,0,0.3);
-                    gl.glRotated(rotateArm+rotateForearm,-1,0,0);
+                    gl.glRotated(rotateArm+rotateForearm+sideTilt,-1,0,0);
                     gl.glRotated(trayArm,0,0,-1);
                     drawTray(gl,glut);
                 }
@@ -135,17 +135,28 @@ public class RobotWaiter {
     }
 
     private void drawTray(GL2 gl, GLUT glut) {
+        gl.glDisable(GL.GL_CULL_FACE);
         gl.glMaterialfv(GL2.GL_FRONT,GL2.GL_DIFFUSE, new float[] {0,0,0,1},0);//black
         drawCylinder(gl,glut,0.1,0.7);
         gl.glTranslated(0,0.1,0);
+        gl.glMaterialfv(GL2.GL_FRONT,GL2.GL_DIFFUSE, new float[] {0.7f,0.7f,1,1},0);//blueish tinge
         gl.glPushMatrix();
-            gl.glMaterialfv(GL2.GL_FRONT,GL2.GL_DIFFUSE, new float[] {0.7f,0.7f,1,1},0);//bluey
+            gl.glTranslated(0.2,0,-0.2);
             drawCylinder(gl,glut,0.3,0.05);
             gl.glTranslated(0,0.6,0);
             gl.glRotated(180,0,0,1);
             drawCone(gl,glut,0.2,0.3);
         gl.glPopMatrix();
-        gl.glMaterialfv(GL2.GL_FRONT,GL2.GL_DIFFUSE, COLOUR,0);
+        gl.glPushMatrix();
+            gl.glTranslated(0,0,0.2);
+            drawCylinder(gl,glut,0.3,0.1);
+        gl.glPopMatrix();
+        gl.glPushMatrix();
+            gl.glTranslated(-0.2,0,0);
+            drawRectangle(gl,glut,0.4,0.2,0.2,0);
+        gl.glPopMatrix();
+        gl.glMaterialfv(GL2.GL_FRONT,GL2.GL_DIFFUSE, ROBOT_COLOUR,0);//grey
+        gl.glEnable(GL.GL_CULL_FACE);
     }
 
     private void drawRectangle(GL2 gl, GLUT glut, double l, double w, double d, double r) {

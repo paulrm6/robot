@@ -22,6 +22,7 @@ public class AnimationScene {
     public static final int ROBOT_LEAN_S = 6;
 
     public static final int MAX_PARAMS = 10;
+    private final int DURATION = 40;
     private Anim[] param;
     private int numParams;
     private double globalStartTime, localTime, repeatTime, savedLocalTime;
@@ -32,20 +33,23 @@ public class AnimationScene {
      */
     public AnimationScene() {
         param = new Anim[MAX_PARAMS];
-        param[ROBOT_X_PARAM] = create(0.0, 60, true, true,
+        param[ROBOT_X_PARAM] = create(0.0, DURATION, true, true,
                 new double[]{0.0,0.0,
                         0.05,2,//arrive at table1
                         0.15,2,//depart table1
-                        0.2,-3.5,//arrive at table2
-                        0.3,-3.5,//depart table2
+                        0.2,-4,//arrive at table2
+                        0.3,-4,//depart table2
                         0.40,3,
                         0.45,0,//arrive at table3
                         0.55,0,//depart table3
                         0.65,7,
-
+                        0.7,5,
+                        0.80,-7,//arrive at table2
+                        0.90,-7,//depart table2
+                        0.95,-4,
                         1.0,0.0
                 });
-        param[ROBOT_Z_PARAM] = create(0.0, 60, true, true,
+        param[ROBOT_Z_PARAM] = create(0.0, DURATION, true, true,
                 new double[]{0.0,0.0,
                         0.05,7,//arrive at table1
                         0.15,7,//depart table1
@@ -54,11 +58,13 @@ public class AnimationScene {
                         0.45,-7,//arrive at table3
                         0.55,-7,//depart table3
                         0.65,-13,
-
-
+                        0.75,-1,
+                        0.80,3,//arrive at table2
+                        0.90,3,//depart table2
+                        0.95,-3,
                         1.0,0.0
                 });
-        param[ROBOT_ROTATE] = create(0.0,60,true,true,
+        param[ROBOT_ROTATE] = create(0.0,DURATION,true,true,
                 new double[]{0.0,0.0,
                         0.01,15,//face table1
                         0.05,0,//face table1
@@ -71,10 +77,15 @@ public class AnimationScene {
                         0.43,-90,//arrive at table3
                         0.55,-90,//depart table3
                         0.65,0,
-
-                        1.0,0.0
+                        0.67,-20,
+                        0.70,-60,
+                        0.80,0,//arrive table2
+                        0.90,0,//depart table2
+                        0.94,-20,
+                        0.97,20,
+                        1.0,0
                 });
-        param[ROBOT_HEAD] = create(0.0,60,true,true,
+        param[ROBOT_HEAD] = create(0.0,DURATION,true,true,
                 new double[]{0.0,0.0,
                         0.05,-15,
                         0.10,-15,
@@ -86,10 +97,13 @@ public class AnimationScene {
                         0.43,-15,
                         0.5,-15,
                         0.55,0,
-
+                        0.72,0,
+                        0.80,-15,
+                        0.87,-15,
+                        0.90,0,
                         1.0,0.0
                 });
-        param[ROBOT_TRAY_ARM] = create(0.0,60,true,true,
+        param[ROBOT_TRAY_ARM] = create(0.0,DURATION,true,true,
                 new double[]{0.0,0.0,
                         0.03,0,
                         0.07,-86,
@@ -103,10 +117,13 @@ public class AnimationScene {
                         0.46,-86,
                         0.51,-86,
                         0.55,0,
-
+                        0.78,0,
+                        0.82,-86,
+                        0.87,-86,
+                        0.90,0,
                         1.0,0.0
                 });
-        param[ROBOT_LEAN_F] = create(0.0,60,true,true,
+        param[ROBOT_LEAN_F] = create(0.0,DURATION,true,true,
                 new double[]{0.0,0.0,
                         0.02,-15,//lean forward
                         0.05,0,//arrive at table1
@@ -120,10 +137,14 @@ public class AnimationScene {
                         0.55,0,
                         0.6,15,
                         0.65,0,
-
+                        0.77,-20,
+                        0.80,0,
+                        0.90,0,
+                        0.94,10,
+                        0.97,-10,
                         1.0,0.0
                 });
-        param[ROBOT_LEAN_S] = create(0.0,60,true,true,
+        param[ROBOT_LEAN_S] = create(0.0,DURATION,true,true,
                 new double[]{0.0,0.0,
                         0.02,-3,
                         0.04,3,
@@ -139,13 +160,18 @@ public class AnimationScene {
                         0.55,0,
                         0.60,10,
                         0.65,0,
-
+                        0.70,4,
+                        0.75,-4,
+                        0.80,0,
+                        0.90,0,
+                        0.94,-3,
+                        0.97,3,
                         1.0,0.0
                 });
         numParams = ROBOT_LEAN_S+1;
         localTime = 0;
         savedLocalTime = 0;
-        repeatTime = 50;
+        repeatTime = 45;
         globalStartTime = getSeconds();
     }
 
