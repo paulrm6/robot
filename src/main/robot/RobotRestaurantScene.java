@@ -18,6 +18,8 @@ import java.io.File;
  * I declare that this code is my own work.
  * prmacdonald1@sheffield.ac.uk
  * 1350155458
+ *
+ * A class used to control and initiate the scene
  */
 
 public class RobotRestaurantScene {
