@@ -6,7 +6,7 @@ package robot;
  *
  * @author Dr Steve Maddock
  * @version 1.0 (26/07/2013)
- * <p/>
+ *
  * Utilised by Paul MacDonald. (UNEDITED)
  * prmacdonald1@sheffield.ac.uk
  * 1350155458

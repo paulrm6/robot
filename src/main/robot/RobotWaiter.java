@@ -17,8 +17,6 @@ public class RobotWaiter {
     private final int RESOLUTION = 100;
     private double x = 0;
     private double z = 0;
-    private double lookX = 0;
-    private double lookZ = 1;
     private double rotate = 0;
     private double sideTilt = 0, frontTilt = 0;
     private double headTilt = 0;
@@ -208,11 +206,11 @@ public class RobotWaiter {
     }
 
     public double getLookX() {
-        return lookX;
+        return Math.sin(Math.toRadians(rotate));
     }
 
     public double getLookZ() {
-        return lookZ;
+        return Math.cos(Math.toRadians(rotate));
     }
 
     public void setHeadTilt(double headTilt) {
@@ -221,12 +219,6 @@ public class RobotWaiter {
 
     public void setTrayArm(double trayArm) {
         this.trayArm = trayArm;
-    }
-
-    public void updateLookXZ() {
-        double radAngle = Math.toRadians(rotate);
-        lookX = Math.sin(radAngle);
-        lookZ = Math.cos(radAngle);
     }
 
     public void setPerspective(boolean perspective) {

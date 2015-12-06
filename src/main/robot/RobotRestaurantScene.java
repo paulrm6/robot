@@ -27,7 +27,7 @@ public class RobotRestaurantScene {
     private Camera camera;
     private AnimationScene animationScene = new AnimationScene();
     private RobotWaiter theRobot = new RobotWaiter();
-    private Restaurant restaurant;
+    private Restaurant restaurant = new Restaurant(9, 30, 30);
     //Create instances of the tables
     private Table[] tables = {
             new Table(2, 10, 2.0, 3.5, 3),
@@ -57,8 +57,7 @@ public class RobotRestaurantScene {
      * @param camera The camera object
      */
     public RobotRestaurantScene(GL2 gl, Camera camera) {
-        //initiate and create the restaurant
-        restaurant = new Restaurant(gl, 9, 30, 30);
+        //create the restaurant
         restaurant.create(gl);
         //create the tables
         for (Table table : tables) {

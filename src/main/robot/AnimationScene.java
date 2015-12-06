@@ -5,14 +5,14 @@ package robot;
  *
  * @author Dr Steve Maddock
  * @version 1.0 (21/11/2013)
- *          <p/>
- *          Utilised by Paul MacDonald. (EDITED)
- *          prmacdonald1@sheffield.ac.uk
- *          1350155458
- *          <p/>
- *          Added comments
- *          Edited variables in constructor
- *          Removed unused methods
+ *
+ * Utilised by Paul MacDonald. (EDITED)
+ * prmacdonald1@sheffield.ac.uk
+ * 1350155458
+ *
+ * Added comments
+ * Edited variables in constructor
+ * Removed unused methods
  */
 
 public class AnimationScene {
@@ -25,7 +25,6 @@ public class AnimationScene {
     public static final int ROBOT_TRAY_ARM = 4;
     public static final int ROBOT_LEAN_F = 5;
     public static final int ROBOT_LEAN_S = 6;
-
     public static final int MAX_PARAMS = 10;
     private final int DURATION = 40;
     private Anim[] param;
@@ -73,8 +72,8 @@ public class AnimationScene {
     /**
      * @param start    Specifies a start time
      * @param duration Specifies a duration (Start time+duration=finish time)
-     * @param pre
-     * @param post
+     * @param pre is the frame used before the start
+     * @param post is the frame used after the finish
      * @param data     Gives the data to be parsed to the into KeyInfo
      * @return A new Anim which maintains the list of KeyInfo
      */

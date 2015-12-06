@@ -8,10 +8,13 @@ package robot;
  *
  * @author Dr Steve Maddock
  * @version 1.0 (21/11/2013)
- *          <p/>
- *          Utilised by Paul MacDonald.
- *          prmacdonald1@sheffield.ac.uk
- *          1350155458
+ *
+ * Utilised by Paul MacDonald. (EDITED)
+ * prmacdonald1@sheffield.ac.uk
+ * 1350155458
+ *
+ * Changed from linear interpolation to cosine interpolation
+ * Removed a few unnecessary methods
  */
 
 public class Anim {
@@ -32,30 +35,11 @@ public class Anim {
         reset();
     }
 
-    public static void main(String[] args) {
-        // assumes keyframe frame numbers are not repeated
-        KeyInfo[] k = new KeyInfo[4];
-        k[0] = new KeyInfo(0.0, 1.0);
-        k[1] = new KeyInfo(0.2, 10.0);
-        k[2] = new KeyInfo(0.7, 20.0);
-        k[3] = new KeyInfo(1.0, 22.0);
-
-        Anim anim = new Anim(3.0, 5.0, true, true, k);
-
-        for (int i = -5; i < 50; ++i) {
-            anim.update(i / 5.0);
-            System.out.println("i/10=" + i / 5.0 + ", p=" + anim.getCurrValue());
-        }
-    }
-
     public void reset() {
         if (preUse) currValue = keys[0].getValue();
         else currValue = 0;
     }
 
-    /**
-     *
-     */
     public void update(double t) {
         if (t <= start) {
             if (preUse || t == start) currValue = keys[0].getValue();
@@ -67,7 +51,6 @@ public class Anim {
             double normalisedTime = (t - start) / duration;
             int k1 = findKeyFrameBefore(normalisedTime);
             currValue = cosineInterpolation(normalisedTime, k1, k1 + 1);
-            //currValue = bezierCurve(normalisedTime, k1, k1+1, k1+2);
         }
     }
 
@@ -85,17 +68,13 @@ public class Anim {
         return k1 - 1;
     }
 
-    private double linearInterpolation(double t, int k1, int k2) {
-        double f1 = keys[k1].getKF();
-        double f2 = keys[k2].getKF();
-        double fraction = (t - f1) / (f2 - f1);
-        double p1 = keys[k1].getValue();
-        double p2 = keys[k2].getValue();
-        double p = p1 + fraction * (p2 - p1);
-        System.out.println(f1 + ", " + f2 + ", " + fraction + ", " + p1 + ", " + p2 + ", " + p);
-        return p;
-    }
-
+    /**
+     * A cosine interpolation method
+     * @param t time t
+     * @param k1 keyframe 1
+     * @param k2 keyframe 2
+     * @return double, the interpolated value
+     */
     private double cosineInterpolation(double t, int k1, int k2) {
         double f1 = keys[k1].getKF();
         double f2 = keys[k2].getKF();
@@ -105,25 +84,4 @@ public class Anim {
         double cosFraction = (1 - Math.cos(fraction * Math.PI)) / 2;
         return (p1 * (1 - cosFraction) + p2 * cosFraction);
     }
-
-    private double bezierCurve(double t, int k1, int k2, int k3) {
-        double f1 = keys[k1].getKF();
-        double f2 = keys[k2].getKF();
-        double fraction = t;
-        double p1 = keys[k1].getValue();
-        double p2 = keys[k2].getValue();
-        double p3 = keys[k3].getValue();
-        return ((1 - fraction) * ((1 - fraction) * (p1 + fraction * p2)) + ((1 - fraction) * p2 + fraction * p3));
-    }
-
-    /**
-     * Standard use of toString method
-     *
-     * @return A string representing the key data
-     */
-    public String toString() {
-        String s = "Anim: ";
-        return s;
-    }
-
 }

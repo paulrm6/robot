@@ -10,21 +10,23 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * Dr Steve Maddock's Light class from labs.
  * prmacdonald1@sheffield.ac.uk
  * 1350155458
+ *
+ * A class to create light objects and deploy them
  */
 public class Light {
     //Initiate some final variables
     private final float[] WHITE = {1.0f, 1.0f, 1.0f};
     private final float[] BLACK = {0.0f, 0.0f, 0.0f};
-    //Initiate some variables
+    //Initiate some other variables
     private int index;
-    private boolean on = true,
-            spotlight = false;
+    private boolean on = true, //lights on by default
+            spotlight = false; //lights not a spotlight by default
     private float[] position,
             ambient = BLACK,
             diffuse = WHITE,
             specular = WHITE,
             spotDirection;
-    private float spotAngle;
+    private float shininess = 60f, spotAngle;
 
     /**
      * Constructor.
@@ -97,29 +99,33 @@ public class Light {
             gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);
             gl.glLightfv(index, GL2.GL_DIFFUSE, diffuse, 0);
             gl.glLightfv(index, GL2.GL_SPECULAR, specular, 0);
+            gl.glLightf(index, GL2.GL_SHININESS,shininess);
             //If the light is a spotlight
             if (spotlight) {
                 //Set extra properties
                 gl.glLightf(index, GL2.GL_SPOT_CUTOFF, spotAngle);
                 gl.glLightfv(index, GL2.GL_SPOT_DIRECTION, spotDirection, 0);
             }
-            if (show) {
+            if (show) { //if show is true, create visible lightbulbs
                 float[] yellowish = {1.0f, 1.0f, 0.6f, 1.0f};
                 float[] black = {0.0f, 0.0f, 0.0f, 1.0f};
                 gl.glPushMatrix();
-                gl.glTranslated(position[0], position[1], position[2]);
-                gl.glPushMatrix();
-                gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, black, 0);
-                gl.glRotated(90, 1, 0, 0);
-                glut.glutSolidCylinder(0.05, 1, 20, 20);
+                    gl.glTranslated(position[0], position[1], position[2]);
+                    gl.glPushMatrix();
+                        //change material diffuse to black
+                        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, black, 0);
+                        gl.glRotated(90, 1, 0, 0);
+                        glut.glutSolidCylinder(0.05, 1, 20, 20);
+                    gl.glPopMatrix();
+                    gl.glTranslated(0, -1, 0);
+                    gl.glPushMatrix();
+                        //change material emission to a yellowish colour
+                        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, yellowish, 0);
+                        gl.glScaled(0.2, 0.2, 0.2);
+                        glut.glutSolidSphere(1, 20, 20);
+                    gl.glPopMatrix();
                 gl.glPopMatrix();
-                gl.glTranslated(0, -1, 0);
-                gl.glPushMatrix();
-                gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, yellowish, 0);
-                gl.glScaled(0.2, 0.2, 0.2);
-                glut.glutSolidSphere(1, 20, 20);
-                gl.glPopMatrix();
-                gl.glPopMatrix();
+                //change material emission back to black
                 gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, black, 0);
             }
         } else {
@@ -128,10 +134,18 @@ public class Light {
         }
     }
 
+    /**
+     * Sets the position of a light
+     * @param position the position
+     */
     public void setPosition(float[] position) {
         this.position = position.clone();
     }
 
+    /**
+     * Sets the direction of a spotlight
+     * @param spotDirection the direction
+     */
     public void setSpotDirection(float[] spotDirection) {
         this.spotDirection = spotDirection.clone();
     }

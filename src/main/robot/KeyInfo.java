@@ -6,10 +6,10 @@ package robot;
  *
  * @author Dr Steve Maddock
  * @version 1.0 (21/11/2013)
- *          <p/>
- *          Utilised by Paul MacDonald. (UNEDITED)
- *          prmacdonald1@sheffield.ac.uk
- *          1350155458
+ *
+ * Utilised by Paul MacDonald. (UNEDITED)
+ * prmacdonald1@sheffield.ac.uk
+ * 1350155458
  */
 
 public class KeyInfo {

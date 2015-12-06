@@ -5,10 +5,10 @@ package robot;
  *
  * @author Dr Steve Maddock
  * @version 2.0 (09/09/2011)
- *          <p/>
- *          Utilised by Paul MacDonald. (UNEDITED)
- *          prmacdonald1@sheffield.ac.uk
- *          1350155458
+ *
+ * Utilised by Paul MacDonald. (UNEDITED)
+ * prmacdonald1@sheffield.ac.uk
+ * 1350155458
  */
 
 public class BoundingBox implements Cloneable {
