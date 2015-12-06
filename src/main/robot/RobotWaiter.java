@@ -14,13 +14,14 @@ public class RobotWaiter {
     private final float[] AMBIENT = {0.2f,0.2f,0.2f,1.0f}; //dark grey
     private final float[] COLOUR = {0.8f,0.8f,0.8f,1.0f}; //grey
     private final int RESOLUTION = 100;
-    private double x;
-    private double z;
-    private double lookX;
-    private double lookZ;
-
-    private double rotate;
+    private double x = 0;
+    private double z = 0;
+    private double lookX = 0;
+    private double lookZ = 1;
+    private double rotate = 0;
     private double sideTilt=0, frontTilt=0;
+    private double headTilt = 0;
+    private double trayArm = 0;
     public RobotWaiter() {
     }
     public void draw(GL2 gl, GLUT glut, boolean withRobotLight) {
@@ -28,35 +29,34 @@ public class RobotWaiter {
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, COLOUR, 0);
 
         gl.glPushMatrix();
-            gl.glRotated(rotate,0,1,0);
             gl.glTranslated(x,0,z);
+            gl.glRotated(rotate,0,1,0);
             gl.glRotated(270,0,1,0);
-            gl.glPushMatrix();
-                gl.glRotated(270,1,0,0);
-                glut.glutSolidCone(1,1,RESOLUTION,RESOLUTION);
-            gl.glPopMatrix();
+            drawCone(gl,glut,1,1.2);
             gl.glTranslated(0,1,0);
             gl.glPushMatrix();
                 gl.glRotated(frontTilt,0,0,1);
                 gl.glRotated(sideTilt,1,0,0);
-                drawCylinder(gl,glut,3,1); //draw body
+                drawCylinder(gl,glut,2.5,0.7); //draw body
                 //draw left arm
                 drawArm(gl,glut,true,-15,(-60-sideTilt),true);
                 //draw right arm
                 drawArm(gl,glut,false,-50,(-40-sideTilt),false);
                 //draw neck
                 gl.glPushMatrix();
-                    gl.glTranslated(0,3,0);
+                    gl.glTranslated(0.15,2.5,0);
                     drawCylinder(gl,glut,0.2,0.2);
                     //draw head
                     gl.glPushMatrix();
                         gl.glTranslated(0,0.2,0);
+                        gl.glRotated(headTilt,0,0,1);
                         drawRectangle(gl,glut,1,0.9,0.9,0);
-                        //draw left eye
+                        //set eye emission
                         if(withRobotLight) {
                             float[] matEmission = {1.0f, 1.0f, 1.0f, 1.0f};
                             gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, 0);
                         }
+                        //draw left eye
                         gl.glPushMatrix();
                             gl.glTranslated(0.45,0.7,0.2);
                             glut.glutSolidSphere(0.1,RESOLUTION,RESOLUTION);
@@ -79,12 +79,23 @@ public class RobotWaiter {
         if (leftSide) {
             angle = 90;
             side = 1;
+            rotateArm=rotateArm+0.5*trayArm-sideTilt;
+
         } else {
             angle = 270;
             side = -1;
         }
+        int clawAngle;
+        if (closedHand) {
+            clawAngle = -5;
+        } else {
+            clawAngle = 10;
+        }
         gl.glPushMatrix();
-            gl.glTranslated(0,2.7,side*0.85);
+            gl.glTranslated(0,2,side*0.6);
+            if(leftSide) {
+                gl.glRotated(trayArm - frontTilt, 0, 0, 1);
+            }
             gl.glRotated(rotateArm,1,0,0); // rotate arm
             drawRectangle(gl,glut,1,0.25,0.25,angle);
             //draw forearm
@@ -93,24 +104,48 @@ public class RobotWaiter {
                 gl.glRotated(rotateForearm,1,0,0); // rotate forearm
                 drawRectangle(gl,glut,1,0.2,0.2,angle);
                 //draw claw
-                drawClaw(gl,glut,angle,side,1,closedHand);
-                drawClaw(gl,glut,angle,side,-1,closedHand);
+                gl.glTranslated(0,0,side*0.95);
+                gl.glPushMatrix();
+                    gl.glTranslated(0,side*0.05,0);
+                    gl.glRotated(clawAngle,1,0,0);
+                    drawRectangle(gl,glut,0.3,0.05,0.05,angle);
+                gl.glPopMatrix();
+                gl.glPushMatrix();
+                    gl.glTranslated(0,-side*0.05,0);
+                    gl.glRotated(-clawAngle,1,0,0);
+                    drawRectangle(gl,glut,0.3,0.05,0.05,angle);
+                gl.glPopMatrix();
+                gl.glPushMatrix();
+                if(leftSide) {
+                    gl.glTranslated(0,0,0.3);
+                    gl.glRotated(rotateArm+rotateForearm,-1,0,0);
+                    gl.glRotated(trayArm,0,0,-1);
+                    drawTray(gl,glut);
+                }
+                gl.glPopMatrix();
             gl.glPopMatrix();
         gl.glPopMatrix();
     }
 
-    private void drawClaw(GL2 gl, GLUT glut, double angle, int side, int clawSide, boolean closedHand) {
-        int clawAngle;
-        if (closedHand) {
-            clawAngle = -5*clawSide;
-        } else {
-            clawAngle = 10*clawSide;
-        }
+    private void drawCone(GL2 gl, GLUT glut, double h, double r) {
         gl.glPushMatrix();
-            gl.glTranslated(0,-side*clawSide*0.05,side*0.95);
-            gl.glRotated(clawAngle,1,0,0);
-            drawRectangle(gl,glut,0.3,0.05,0.05,angle);
+            gl.glRotated(270,1,0,0);
+            glut.glutSolidCone(h,r,RESOLUTION,RESOLUTION);
         gl.glPopMatrix();
+    }
+
+    private void drawTray(GL2 gl, GLUT glut) {
+        gl.glMaterialfv(GL2.GL_FRONT,GL2.GL_DIFFUSE, new float[] {0,0,0,1},0);//black
+        drawCylinder(gl,glut,0.1,0.7);
+        gl.glTranslated(0,0.1,0);
+        gl.glPushMatrix();
+            gl.glMaterialfv(GL2.GL_FRONT,GL2.GL_DIFFUSE, new float[] {0.7f,0.7f,1,1},0);//bluey
+            drawCylinder(gl,glut,0.3,0.05);
+            gl.glTranslated(0,0.6,0);
+            gl.glRotated(180,0,0,1);
+            drawCone(gl,glut,0.2,0.3);
+        gl.glPopMatrix();
+        gl.glMaterialfv(GL2.GL_FRONT,GL2.GL_DIFFUSE, COLOUR,0);
     }
 
     private void drawRectangle(GL2 gl, GLUT glut, double l, double w, double d, double r) {
@@ -147,7 +182,7 @@ public class RobotWaiter {
     }
 
     public void setRotate(double rotate) {
-        this.rotate = rotate;
+        this.rotate = Math.toDegrees(rotate);
     }
 
     public double getLookX() {
@@ -156,6 +191,14 @@ public class RobotWaiter {
 
     public double getLookZ() {
         return lookZ;
+    }
+
+    public void setHeadTilt(double headTilt) {
+        this.headTilt = headTilt;
+    }
+
+    public void setTrayArm(double trayArm) {
+        this.trayArm = trayArm;
     }
 
     public void updateLookXZ() {

@@ -23,9 +23,8 @@ import com.jogamp.opengl.util.gl2.GLUT;
 public class Table {
     private double x, z, h, w, d;
     private Texture table;
-    private Mesh meshCube;
-    private RenderMesh cube;
-    private Material mat;
+    private Mesh meshCube, meshTableTop;
+    private RenderMesh cube, tableTop;
     public Table(double x, double z, double h, double w, double d) {
         this.x = x;
         this.z = z;
@@ -37,28 +36,44 @@ public class Table {
     public void create(GL2 gl) {
         table = RobotRestaurantScene.loadTexture(gl, "table.jpg");
         meshCube = ProceduralMeshFactory.createHardCube();
-        Material mat = meshCube.getMaterial();
-        mat.setDiffuse(1.0f,1.0f,1.0f,1f);
         cube = new RenderMesh(meshCube, table);
+        meshTableTop = ProceduralMeshFactory.createPlane(w,d,100,100,1,1);  // Create the mesh structure
+        tableTop = new RenderMesh(meshTableTop, table);    // Create a new Render object for the mesh
+        tableTop.initialiseDisplayList(gl, true);
     }
 
     public void render(GL2 gl) {
         gl.glPushMatrix();
-            gl.glTranslated(x,h*1.05,z);
+            gl.glTranslated(x,h,z);
             //draw tablebody
             gl.glPushMatrix();
-                gl.glScaled(w,0.1*h,d);
-                cube.renderImmediateMode(gl,true);
+                tableTop.renderImmediateMode(gl, true);
             gl.glPopMatrix();
             for(int i =-1; i<2;i+=2){
                 for(int n =-1; n<2;n+=2) {
                     gl.glPushMatrix();
-                    gl.glTranslated(-w * (0.5 - 0.025) * i, -h * 0.475, -d * (0.5 - 0.025)* n);
-                    gl.glScaled(0.05 * w, 0.9 * h, 0.05 * d);
+                    gl.glTranslated(-w * (0.5 - 0.025) * i, -h * 0.5, -d * (0.5 - 0.025)* n);
+                    gl.glScaled(0.05 * w, h, 0.05 * d);
                     cube.renderImmediateMode(gl, true);
                     gl.glPopMatrix();
                 }
             }
         gl.glPopMatrix();
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public double getW() {
+        return w;
+    }
+
+    public double getD() {
+        return d;
     }
 }

@@ -26,6 +26,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     private GLCanvas canvas;
     private Checkbox worldLighting, robotLight;
     private boolean withWorldLighting = true, withRobotLight = true, robotPerspective = false;
+    private boolean continuousAnimation;
 
     public RobotRestaurant() {
         //Set title of window
@@ -60,6 +61,18 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         Button perspective = new Button("Change Perspective");
         perspective.addActionListener(this);
         p.add(perspective);
+        //Button to start the animation
+        Button startAnim = new Button("Start Animation");
+        startAnim.addActionListener(this);
+        p.add(startAnim);
+        //Button to pause the animation
+        Button stopAnim = new Button("Stop Animation");
+        stopAnim.addActionListener(this);
+        p.add(stopAnim);
+        //Button to stop the animation
+        Button resetAnim = new Button("Reset Animation");
+        resetAnim.addActionListener(this);
+        p.add(resetAnim);
         this.add(p, "South");
         //Add a window listener for the window being closed by the user
         addWindowListener(new WindowAdapter() {
@@ -84,10 +97,25 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
             System.exit(0);
         }
         //If user clicks change perspective
-        else if (e.getActionCommand().equalsIgnoreCase("Change Perspective")) {
+        if (e.getActionCommand().equalsIgnoreCase("Change Perspective")) {
             //Inverse the robotPerspective variable
             robotPerspective = !robotPerspective;
             canvas.repaint();
+        }
+        //If user clicks change perspective
+        if (e.getActionCommand().equalsIgnoreCase("Start Animation")) {
+            continuousAnimation = true;
+            scene.startAnim();
+        }
+        //If user clicks change perspective
+        if (e.getActionCommand().equalsIgnoreCase("Stop Animation")) {
+            continuousAnimation = false;
+            scene.stopAnim();
+        }
+        //If user clicks change perspective
+        if (e.getActionCommand().equalsIgnoreCase("Reset Animation")) {
+            continuousAnimation = false;
+            scene.resetAnim();
         }
     }
 
@@ -111,7 +139,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
-        gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //black
+        gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //black background
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable(GL.GL_CULL_FACE);
         gl.glFrontFace(GL.GL_CCW);
@@ -120,12 +148,9 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
         gl.glEnable(GL2.GL_LIGHTING);
         gl.glEnable(GL2.GL_NORMALIZE);
-        double radius = 50.0;           // radius of 'camera sphere', i.e. distance from
-        // world origin
+        double radius = 50.0; //distance of the camera from world origin
         double theta = Math.toRadians(-90); // theta rotates anticlockwise around y axis
-        // here, 45 clockwise from x towards z axis
         double phi = Math.toRadians(30);  // phi is inclination from ground plane
-        // here, 30 degrees up from ground plane
         camera = new Camera(theta, phi, radius);
         scene = new RobotRestaurantScene(gl,camera);
     }
@@ -133,7 +158,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
         GL2 gl = glAutoDrawable.getGL().getGL2();
-        scene.update();
+        if (continuousAnimation) scene.update();
         scene.render(gl, withWorldLighting, withRobotLight, robotPerspective);
     }
 

@@ -11,7 +11,7 @@ import com.jogamp.opengl.util.texture.Texture;
  */
 
 public class Restaurant {
-    private final int POINTS_X = 300, POINTS_Y = 300;
+    private final int POINTS_X = 200, POINTS_Y = 200;
     private final double TILES_X = 1, TILES_Y = 1;
     private double height, width, depth;
     private Mesh meshSides, meshEnds, meshTB;
