@@ -3,8 +3,12 @@ package robot;
 /**
  * This class stores the Material properties for a Mesh
  *
- * @author    Dr Steve Maddock
- * @version   2.0 (09/09/2011)
+ * @author Dr Steve Maddock
+ * @version 2.0 (09/09/2011)
+ *          <p/>
+ *          Utilised by Paul MacDonald. (UNEDITED)
+ *          prmacdonald1@sheffield.ac.uk
+ *          1350155458
  */
 
 public class Material implements Cloneable {
@@ -32,13 +36,18 @@ public class Material implements Cloneable {
         shininess = DEFAULT_SHININESS;
     }
 
+    public static void main(String[] args) {
+        Material m = new Material();
+        System.out.println(m);
+    }
+
     /**
      * Sets the ambient value (as used in Phong local reflection model)
      *
-     * @param  red    the red value in the range 0.0..1.0
-     * @param  green  the green value in the range 0.0..1.0
-     * @param  blue   the blue value in the range 0.0..1.0
-     * @param  alpha  the alpha value in the range 0.0..1.0
+     * @param red   the red value in the range 0.0..1.0
+     * @param green the green value in the range 0.0..1.0
+     * @param blue  the blue value in the range 0.0..1.0
+     * @param alpha the alpha value in the range 0.0..1.0
      */
     public void setAmbient(float red, float green, float blue, float alpha) {
         ambient[0] = red;
@@ -48,33 +57,33 @@ public class Material implements Cloneable {
     }
 
     /**
-     * Sets the ambient value (as used in Phong local reflection model)
-     *
-     * @param  rgba  array of 4 values, where the first 3 values are the values for red, green and blue,
-    in the range 0.0..1.0, and the last value is an alpha term, which is always 1.
-     */
-    public void setAmbient(float[] rgba) {
-        for (int i=0; i<4; i++)
-            ambient[i] = rgba[i];
-    }
-
-    /**
      * Gets the ambient value (as a clone) (as used in Phong local reflection model)
      *
-     * @return  4 values, where the first 3 values are the values for red, green and blue,
-    and the last value is an alpha term, which is always 1.
+     * @return 4 values, where the first 3 values are the values for red, green and blue,
+     * and the last value is an alpha term, which is always 1.
      */
     public float[] getAmbient() {
         return ambient.clone();
     }
 
     /**
+     * Sets the ambient value (as used in Phong local reflection model)
+     *
+     * @param rgba array of 4 values, where the first 3 values are the values for red, green and blue,
+     *             in the range 0.0..1.0, and the last value is an alpha term, which is always 1.
+     */
+    public void setAmbient(float[] rgba) {
+        for (int i = 0; i < 4; i++)
+            ambient[i] = rgba[i];
+    }
+
+    /**
      * Sets the diffuse value (as used in Phong local reflection model)
      *
-     * @param  red    the red value in the range 0.0..1.0
-     * @param  green  the green value in the range 0.0..1.0
-     * @param  blue   the blue value in the range 0.0..1.0
-     * @param  alpha  the alpha value in the range 0.0..1.0
+     * @param red   the red value in the range 0.0..1.0
+     * @param green the green value in the range 0.0..1.0
+     * @param blue  the blue value in the range 0.0..1.0
+     * @param alpha the alpha value in the range 0.0..1.0
      */
     public void setDiffuse(float red, float green, float blue, float alpha) {
         diffuse[0] = red;
@@ -84,33 +93,33 @@ public class Material implements Cloneable {
     }
 
     /**
-     * Sets the diffuse value (as used in Phong local reflection model)
-     *
-     * @param  rgba  array of 4 values, where the first 3 values are the values for red, green and blue,
-    in the range 0.0..1.0, and the last value is an alpha term, which is always 1.
-     */
-    public void setDiffuse(float[] rgba) {
-        for (int i=0; i<4; i++)
-            diffuse[i] = rgba[i];
-    }
-
-    /**
      * Gets the diffuse value (clone) (as used in Phong local reflection model)
      *
-     * @return  4 values, where the first 3 values are the values for red, green and blue,
-    and the last value is an alpha term, which is always 1.
+     * @return 4 values, where the first 3 values are the values for red, green and blue,
+     * and the last value is an alpha term, which is always 1.
      */
     public float[] getDiffuse() {
         return diffuse.clone();
     }
 
     /**
+     * Sets the diffuse value (as used in Phong local reflection model)
+     *
+     * @param rgba array of 4 values, where the first 3 values are the values for red, green and blue,
+     *             in the range 0.0..1.0, and the last value is an alpha term, which is always 1.
+     */
+    public void setDiffuse(float[] rgba) {
+        for (int i = 0; i < 4; i++)
+            diffuse[i] = rgba[i];
+    }
+
+    /**
      * Sets the specular value (as used in Phong local reflection model)
      *
-     * @param  red    the red value in the range 0.0..1.0
-     * @param  green  the green value in the range 0.0..1.0
-     * @param  blue   the blue value in the range 0.0..1.0
-     * @param  alpha  the alpha value in the range 0.0..1.0
+     * @param red   the red value in the range 0.0..1.0
+     * @param green the green value in the range 0.0..1.0
+     * @param blue  the blue value in the range 0.0..1.0
+     * @param alpha the alpha value in the range 0.0..1.0
      */
     public void setSpecular(float red, float green, float blue, float alpha) {
         specular[0] = red;
@@ -120,33 +129,33 @@ public class Material implements Cloneable {
     }
 
     /**
-     * Sets the specular value (as used in Phong local reflection model)
-     *
-     * @param  rgba  array of 4 values, where the first 3 values are the values for red, green and blue,
-    in the range 0.0..1.0, and the last value is an alpha term, which is always 1.
-     */
-    public void setSpecular(float[] rgba) {
-        for (int i=0; i<4; i++)
-            specular[i] = rgba[i];
-    }
-
-    /**
      * Gets the specular value (clone) (as used in Phong local reflection model)
      *
-     * @return  4 values, where the first 3 values are the values for red, green and blue,
-    and the last value is an alpha term, which is always 1.
+     * @return 4 values, where the first 3 values are the values for red, green and blue,
+     * and the last value is an alpha term, which is always 1.
      */
     public float[] getSpecular() {
         return specular.clone();
     }
 
     /**
+     * Sets the specular value (as used in Phong local reflection model)
+     *
+     * @param rgba array of 4 values, where the first 3 values are the values for red, green and blue,
+     *             in the range 0.0..1.0, and the last value is an alpha term, which is always 1.
+     */
+    public void setSpecular(float[] rgba) {
+        for (int i = 0; i < 4; i++)
+            specular[i] = rgba[i];
+    }
+
+    /**
      * Sets the emission value (as used in OpenGL lighting model)
      *
-     * @param  red    the red value in the range 0.0..1.0
-     * @param  green  the green value in the range 0.0..1.0
-     * @param  blue   the blue value in the range 0.0..1.0
-     * @param  alpha  the alpha value in the range 0.0..1.0
+     * @param red   the red value in the range 0.0..1.0
+     * @param green the green value in the range 0.0..1.0
+     * @param blue  the blue value in the range 0.0..1.0
+     * @param alpha the alpha value in the range 0.0..1.0
      */
     public void setEmission(float red, float green, float blue, float alpha) {
         emission[0] = red;
@@ -156,53 +165,53 @@ public class Material implements Cloneable {
     }
 
     /**
-     * Sets the emission value (as used in OpenGL lighting model)
-     *
-     * @param  rgba  array of 4 values, where the first 3 values are the values for red, green and blue,
-    in the range 0.0..1.0, and the last value is an alpha term, which is always 1.
-     */
-    public void setEmission(float[] rgba) {
-        for (int i=0; i<4; i++)
-            emission[i] = rgba[i];
-    }
-
-    /**
      * Gets the emission value (clone) (as used in OpenGL lighting model)
      *
-     * @return  4 values, where the first 3 values are the values for red, green and blue,
-    and the last value is an alpha term, which is always 1.
+     * @return 4 values, where the first 3 values are the values for red, green and blue,
+     * and the last value is an alpha term, which is always 1.
      */
     public float[] getEmission() {
         return emission.clone();
     }
 
     /**
-     * Sets the shininess value (as used in Phong local reflection model)
+     * Sets the emission value (as used in OpenGL lighting model)
      *
-     * @param  shininess  the shininess value.
+     * @param rgba array of 4 values, where the first 3 values are the values for red, green and blue,
+     *             in the range 0.0..1.0, and the last value is an alpha term, which is always 1.
      */
-    public void setShininess(float shininess) {
-        this.shininess = shininess;
+    public void setEmission(float[] rgba) {
+        for (int i = 0; i < 4; i++)
+            emission[i] = rgba[i];
     }
 
     /**
      * Gets the shininess value (as used in Phong local reflection model)
      *
-     * @return  the shininess value.
+     * @return the shininess value.
      */
     public float getShininess() {
         return shininess;
     }
 
     /**
+     * Sets the shininess value (as used in Phong local reflection model)
+     *
+     * @param shininess the shininess value.
+     */
+    public void setShininess(float shininess) {
+        this.shininess = shininess;
+    }
+
+    /**
      * Returns a clone of the Material
      *
-     * @return  a clone of the Material
+     * @return a clone of the Material
      */
 
     public Object clone() {
         Material res = new Material();
-        for (int i=0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             res.ambient[i] = ambient[i];
             res.diffuse[i] = diffuse[i];
             res.specular[i] = specular[i];
@@ -214,23 +223,18 @@ public class Material implements Cloneable {
 
     private String floatArrayToString(float[] a) {
         String s = "[";
-        for (int i=0; i<a.length; ++i) {
-            s+=a[i];
-            if (i<a.length-1) s+=",";
+        for (int i = 0; i < a.length; ++i) {
+            s += a[i];
+            if (i < a.length - 1) s += ",";
         }
-        s+="]";
+        s += "]";
         return s;
     }
 
     public String toString() {
-        return floatArrayToString(ambient)+", "+floatArrayToString(diffuse)
-                +", "+floatArrayToString(specular)+", "+floatArrayToString(emission)
-                +", "+shininess;
-    }
-
-    public static void main(String[] args) {
-        Material m = new Material();
-        System.out.println(m);
+        return floatArrayToString(ambient) + ", " + floatArrayToString(diffuse)
+                + ", " + floatArrayToString(specular) + ", " + floatArrayToString(emission)
+                + ", " + shininess;
     }
 
 }

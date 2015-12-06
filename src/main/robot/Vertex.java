@@ -3,18 +3,18 @@ package robot;
 /**
  * A class for a vertex, containing an xyz position, a normal, and (u,v) texture coordinates.
  *
- * @author    Dr Steve Maddock
- * @version   3.1 (28/10/2015)
- *
- * Utilised by Paul MacDonald.
- * prmacdonald1@sheffield.ac.uk
- * 1350155458
+ * @author Dr Steve Maddock
+ * @version 3.1 (28/10/2015)
+ *          <p/>
+ *          Utilised by Paul MacDonald. (UNEDITED)
+ *          prmacdonald1@sheffield.ac.uk
+ *          1350155458
  */
 
 public class Vertex implements Cloneable {
 
-    private double[] xyz      = new double[3];  // xyz position of a vertex
-    private double[] normal   = new double[3];  // vertex normal
+    private double[] xyz = new double[3];  // xyz position of a vertex
+    private double[] normal = new double[3];  // vertex normal
     private double[] texCoord = new double[2];  // texture coordinates
 
     /**
@@ -43,9 +43,7 @@ public class Vertex implements Cloneable {
     /**
      * Constructor. Assumes parameter p is well-formed. Vertex normal values and texture coordinates are initialised to zero.
      *
-     * @param x x position of the new vertex
-     * @param y y position of the new vertex
-     * @param z z position of the new vertex
+     * @param p x,y,z position of the new vertex
      */
     public Vertex(double[] p) {
         this(p, null, null);
@@ -80,13 +78,13 @@ public class Vertex implements Cloneable {
         xyz[0] = p[0];
         xyz[1] = p[1];
         xyz[2] = p[2];
-        if (n==null) normal[0] = normal[1] = normal[2] = 0;
+        if (n == null) normal[0] = normal[1] = normal[2] = 0;
         else {
             normal[0] = n[0];
             normal[1] = n[1];
             normal[2] = n[2];
         }
-        if (t==null) texCoord[0]=texCoord[1]=0;
+        if (t == null) texCoord[0] = texCoord[1] = 0;
         else {
             texCoord[0] = t[0];
             texCoord[1] = t[1];
@@ -107,6 +105,15 @@ public class Vertex implements Cloneable {
     }
 
     /**
+     * Gets the xyz position of a vertex (as a reference) as a double array, where index 0 = x, index 1 = y, and index 2 = z.
+     *
+     * @return the xyz position of a vertex
+     */
+    public double[] getPosition() {
+        return xyz;
+    }
+
+    /**
      * Sets the xyz position of a vertex
      *
      * @param p array containing (x,y,z) position
@@ -115,15 +122,6 @@ public class Vertex implements Cloneable {
         xyz[0] = p[0];
         xyz[1] = p[1];
         xyz[2] = p[2];
-    }
-
-    /**
-     * Gets the xyz position of a vertex (as a reference) as a double array, where index 0 = x, index 1 = y, and index 2 = z.
-     *
-     * @return the xyz position of a vertex
-     */
-    public double[] getPosition() {
-        return xyz;
     }
 
     /**
@@ -167,22 +165,22 @@ public class Vertex implements Cloneable {
     }
 
     /**
-     * Sets the xyz components of the vertex normal. Assumed to be normalised.
-     *
-     * @param normal array of values for the vertex normal
-     */
-    public void setNormal(double[] normal) {
-        for (int i=0; i<3; i++)
-            this.normal[i] = normal[i];
-    }
-
-    /**
      * Gets the vertex normal (as a reference)
      *
      * @return the vertex normal
      */
     public double[] getNormal() {
         return normal;
+    }
+
+    /**
+     * Sets the xyz components of the vertex normal. Assumed to be normalised.
+     *
+     * @param normal array of values for the vertex normal
+     */
+    public void setNormal(double[] normal) {
+        for (int i = 0; i < 3; i++)
+            this.normal[i] = normal[i];
     }
 
     /**
@@ -230,17 +228,17 @@ public class Vertex implements Cloneable {
      * Normalise the vertex normal
      */
     public void normaliseNormal() {
-        double mag=Math.sqrt(normal[0]*normal[0]+normal[1]*normal[1]+normal[2]*normal[2]);
-        if (mag!=0.0)  // should test within epsilon
-            for (int i=0; i<3; i++)
-                normal[i]/=mag;
+        double mag = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
+        if (mag != 0.0)  // should test within epsilon
+            for (int i = 0; i < 3; i++)
+                normal[i] /= mag;
     }
 
     /**
      * Set the vertex texture coordinates
      *
-     * @param  u texture coordinate
-     * @param  v texture coordinate
+     * @param u texture coordinate
+     * @param v texture coordinate
      */
     public void setTextureCoord(double u, double v) {
         texCoord[0] = u;
@@ -248,22 +246,22 @@ public class Vertex implements Cloneable {
     }
 
     /**
+     * Get the vertex texture coordinates (as a reference)
+     *
+     * @return u and v texture coordinates
+     */
+    public double[] getTextureCoord() {
+        return texCoord;
+    }
+
+    /**
      * set the vertex texture coordinates
      *
-     * @param  uv  u and v texture coordinates
+     * @param uv u and v texture coordinates
      */
     public void setTextureCoord(double[] uv) {
         texCoord[0] = uv[0];
         texCoord[1] = uv[1];
-    }
-
-    /**
-     * Get the vertex texture coordinates (as a reference)
-     *
-     * @return  u and v texture coordinates
-     */
-    public double[] getTextureCoord() {
-        return texCoord;
     }
 
     /**
@@ -286,11 +284,12 @@ public class Vertex implements Cloneable {
 
     /**
      * A new vertex is created which is a copy of the contents of this vertex.
+     *
      * @return a clone of this vertex
      */
     public Object clone() {
         Vertex res = new Vertex();
-        for (int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             res.xyz[i] = xyz[i];
             res.normal[i] = normal[i];
         }

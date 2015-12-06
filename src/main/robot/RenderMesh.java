@@ -12,21 +12,16 @@ package robot;
  * If the Mesh structure was to be updated, e.g. a vertex moved, then then relevant data would
  * need to be copied here again, before rendering would produce the correct result.
  *
- * @author    Dr Steve Maddock
- * @version   3.1 (28/10/2015)
- *
+ * @author Dr Steve Maddock
+ * @version 3.1 (28/10/2015)
+ * <p/>
  * Utilised by Paul MacDonald.
  * prmacdonald1@sheffield.ac.uk
  * 1350155458
  */
 
-import com.jogamp.opengl.*;
-import com.jogamp.opengl.util.*;
-import com.jogamp.common.nio.*;
-import java.nio.*;
-
-import com.jogamp.opengl.util.texture.*;
-import com.jogamp.opengl.util.texture.awt.*;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.texture.Texture;
 
 public class RenderMesh {
     private Mesh mesh;
@@ -83,15 +78,15 @@ public class RenderMesh {
     }
 
     private void sendNVData(GL2 gl, int t, int i) {
-        int index = triangles[t*3+i]*3;
-        gl.glNormal3d(normals[index], normals[index+1], normals[index+2]);
-        gl.glVertex3d(vertices[index], vertices[index+1], vertices[index+2]);
+        int index = triangles[t * 3 + i] * 3;
+        gl.glNormal3d(normals[index], normals[index + 1], normals[index + 2]);
+        gl.glVertex3d(vertices[index], vertices[index + 1], vertices[index + 2]);
     }
 
     private void sendAllNVData(GL2 gl) {
-        for (int t=0; t<triangles.length/3; t++) {
-            for (int i=0; i<3; i++) {
-                sendNVData(gl, t,i);
+        for (int t = 0; t < triangles.length / 3; t++) {
+            for (int i = 0; i < 3; i++) {
+                sendNVData(gl, t, i);
             }
         }
     }
@@ -102,19 +97,18 @@ public class RenderMesh {
             tex.bind(gl);
         }
         setMaterial(gl);
-        if (texit) tex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE,GL2.GL_MODULATE);
+        if (texit) tex.setTexParameteri(gl, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
 
         gl.glBegin(GL2.GL_TRIANGLES);
         if (texit) {
-            for (int t=0; t<triangles.length/3; t++) {
-                for (int i=0; i<3; i++) {
-                    int tindex = triangles[t*3+i]*2;
-                    gl.glTexCoord2d(textureCoords[tindex], textureCoords[tindex+1]);
-                    sendNVData(gl, t,i);
+            for (int t = 0; t < triangles.length / 3; t++) {
+                for (int i = 0; i < 3; i++) {
+                    int tindex = triangles[t * 3 + i] * 2;
+                    gl.glTexCoord2d(textureCoords[tindex], textureCoords[tindex + 1]);
+                    sendNVData(gl, t, i);
                 }
             }
-        }
-        else {
+        } else {
             sendAllNVData(gl);
         }
         gl.glEnd();

@@ -31,9 +31,9 @@ public class RobotRestaurantScene {
     private boolean nearTable;
     //Create instances of the tables
     private Table[] tables = {
-            new Table(2,10,2.0,3.5,3),
-            new Table(-7,6,2.0,3.5,3),
-            new Table(-3,-7,2.0,3.5,3)};
+            new Table(2, 10, 2.0, 3.5, 3),
+            new Table(-7, 6, 2.0, 3.5, 3),
+            new Table(-3, -7, 2.0, 3.5, 3)};
     //Create instances of the lights
     private Light[] globalLights = {
             new Light(GL2.GL_LIGHT0, new float[]{0.0f, 10.0f, 0.0f, 0.0f}),
@@ -48,23 +48,48 @@ public class RobotRestaurantScene {
                     new float[]{-7.0f, 9.0f, 6.0f, 1.0f}, 25f,
                     new float[]{0.0f, -9.0f, 0.0f})};
     private Light robotLight = new Light(GL2.GL_LIGHT5,
-                        new float[] {0.0f,4.6f,0.0f,1.0f},20f,
-                        new float[] {0.0f,0.0f,1.0f});
+            new float[]{0.0f, 4.6f, 0.0f, 1.0f}, 20f,
+            new float[]{0.0f, 0.0f, 1.0f});
 
     /**
      * Constructor. Sets the camera object and creates the world objects
-     * @param gl openGL context
+     *
+     * @param gl     openGL context
      * @param camera The camera object
      */
     public RobotRestaurantScene(GL2 gl, Camera camera) {
         //initiate and create the restaurant
-        restaurant = new Restaurant(gl,9,30,30);
+        restaurant = new Restaurant(gl, 9, 30, 30);
         restaurant.create(gl);
         //create the tables
-        for(Table table: tables) {
+        for (Table table : tables) {
             table.create(gl);
         }
         this.camera = camera;
+    }
+
+    /**
+     * A method to load textures.
+     *
+     * @param gl       openGL context
+     * @param filename the filename to load
+     * @return the texture as Texture
+     */
+    public static Texture loadTexture(GL2 gl, String filename) {
+        Texture tex = null;
+        // since file loading is involved, must use try...catch
+        try {
+            File f = new File(filename);
+            BufferedImage img = ImageIO.read(f); // read file into BufferedImage
+            ImageUtil.flipImageVertically(img); // flips image vertically
+            // No mip-mapping.
+            tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
+            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+        } catch (Exception e) {
+            System.out.println("Error loading texture " + filename);
+        }
+        return tex;
     }
 
     /**
@@ -94,62 +119,63 @@ public class RobotRestaurantScene {
     }
 
     public void render(GL2 gl, boolean withWorldLighting, boolean withRobotLight, boolean robotPerspective, boolean withSpotlight) {
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT|GL.GL_DEPTH_BUFFER_BIT);
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
         //If perspective is from the robot
         if (robotPerspective) {
-            gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_LEAN_F),1,0,0);
-            gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_HEAD),-1,0,0);
+            gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_LEAN_F), 1, 0, 0);
+            gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_HEAD), -1, 0, 0);
             glu.gluLookAt(theRobot.getX(), 4.7f, theRobot.getZ(),
-                    theRobot.getX()+theRobot.getLookX(), 4.2f,  theRobot.getZ()+theRobot.getLookZ(),
+                    theRobot.getX() + theRobot.getLookX(), 4.2f, theRobot.getZ() + theRobot.getLookZ(),
                     0.0, 1.0, 0.0);
         } else {
             camera.view(glu);  //If perspective is not from the robot
         }
         theRobot.setPerspective(robotPerspective);
         //deploy the lights
-        deployLights(gl,withWorldLighting,withRobotLight,withSpotlight);
+        deployLights(gl, withWorldLighting, withRobotLight, withSpotlight);
         //render the robot, restaurant and tables
         gl.glEnable(GL.GL_CULL_FACE);
         theRobot.draw(gl, glut, withRobotLight);
         restaurant.render(gl);
         gl.glDisable(GL.GL_CULL_FACE);
-        for(Table table: tables) {
+        for (Table table : tables) {
             table.render(gl);
         }
     }
 
     /**
      * A method to deploy and set the lights
-     * @param gl openGL context
+     *
+     * @param gl             openGL context
      * @param withWorldLight boolean value, true if world lights should be on
      * @param withRobotLight boolean value, true if robot light should be on
      */
-    private void deployLights(GL2 gl,boolean withWorldLight, boolean withRobotLight, boolean withSpotlight) {
+    private void deployLights(GL2 gl, boolean withWorldLight, boolean withRobotLight, boolean withSpotlight) {
         //Iterate through the spotlights
-        for(Light spot: spots) {
+        for (Light spot : spots) {
             //Set the spotlights on or off
             spot.setOn(withSpotlight);
             //Deploy the spotlight
-            spot.deploy(gl,glut,true);
+            spot.deploy(gl, glut, true);
         }
         //Iterate through the world lights
-        for(Light light: globalLights) {
+        for (Light light : globalLights) {
             //Set the world light on or off
             light.setOn(withWorldLight);
             //Deploy the world light
-            light.deploy(gl,glut,false);
+            light.deploy(gl, glut, false);
         }
         //Set the position of the robot light (based on the position of the robot
         gl.glPushMatrix();
-            gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_HEAD)*0.5,-1,0,0);
-            robotLight.setPosition(new float[] {(float)theRobot.getX(),4.6f,(float)theRobot.getZ(),1f});
-            //Set the direction of the robot light (based on the direction of the robot)
-            robotLight.setSpotDirection(new float[] {(float)theRobot.getLookX(),-0.7f,(float)theRobot.getLookZ()});
-            //Set the robot light on or off
-            robotLight.setOn(withRobotLight);
-            //Deploy the robot light
-            robotLight.deploy(gl,glut,false);
+        gl.glRotated(animationScene.getParam(AnimationScene.ROBOT_HEAD) * 0.5, -1, 0, 0);
+        robotLight.setPosition(new float[]{(float) theRobot.getX(), 4.6f, (float) theRobot.getZ(), 1f});
+        //Set the direction of the robot light (based on the direction of the robot)
+        robotLight.setSpotDirection(new float[]{(float) theRobot.getLookX(), -0.7f, (float) theRobot.getLookZ()});
+        //Set the robot light on or off
+        robotLight.setOn(withRobotLight);
+        //Deploy the robot light
+        robotLight.deploy(gl, glut, false);
         gl.glPopMatrix();
     }
 
@@ -163,29 +189,5 @@ public class RobotRestaurantScene {
         theRobot.setHeadTilt(animationScene.getParam(AnimationScene.ROBOT_HEAD));
         theRobot.setTrayArm(animationScene.getParam(AnimationScene.ROBOT_TRAY_ARM));
         theRobot.updateLookXZ();
-    }
-
-    /**
-     * A method to load textures.
-     * @param gl openGL context
-     * @param filename the filename to load
-     * @return the texture as Texture
-     */
-    public static Texture loadTexture(GL2 gl, String filename) {
-        Texture tex = null;
-        // since file loading is involved, must use try...catch
-        try {
-            File f = new File(filename);
-            BufferedImage img = ImageIO.read(f); // read file into BufferedImage
-            ImageUtil.flipImageVertically(img); // flips image vertically
-            // No mip-mapping.
-            tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
-            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-            tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-        }
-        catch(Exception e) {
-            System.out.println("Error loading texture " + filename);
-        }
-        return tex;
     }
 }

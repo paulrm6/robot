@@ -4,12 +4,12 @@ package robot;
  * A class for a triangle, containing the indexes of the vertices (in the Mesh vertex data structure)
  * that make up this triangle, and the triangle normal.
  *
- * @author    Dr Steve Maddock
- * @version   3.1 (28/10/2015)
- *
- * Utilised by Paul MacDonald.
- * prmacdonald1@sheffield.ac.uk
- * 1350155458
+ * @author Dr Steve Maddock
+ * @version 3.1 (28/10/2015)
+ *          <p/>
+ *          Utilised by Paul MacDonald. (UNEDITED)
+ *          prmacdonald1@sheffield.ac.uk
+ *          1350155458
  */
 
 public class Triangle implements Cloneable {
@@ -44,8 +44,8 @@ public class Triangle implements Cloneable {
     /**
      * Constructor. If no triangle normal is supplied, it is initialised to zeroes.
      *
-     * @param vertices Three vertex indices into main mesh structure to form this triangle
-     * @param n Triangle normal (x,y,z) values; otherwise, null
+     * @param indices Three vertex indices into main mesh structure to form this triangle
+     * @param n        Triangle normal (x,y,z) values; otherwise, null
      */
     public Triangle(int[] indices, double[] n) {
         this(indices[0], indices[1], indices[2]);
@@ -70,22 +70,22 @@ public class Triangle implements Cloneable {
     }
 
     /**
-     * Set the vertices that make up this triangle.
-     *
-     * @param indices the index numbers of three vertices in the Mesh vertex data structure
-     */
-    public void setVertexIndices(int[] indicies) {
-        for (int i=0; i<3; i++)
-            vertexIndices[i] = indicies[i];
-    }
-
-    /**
      * Get the list of vertex indexes (as a reference) that make up this triangle.
      *
      * @return a list of vertex indexes into the Mesh vertex data structure
      */
     public int[] getVertexIndices() {
         return vertexIndices;
+    }
+
+    /**
+     * Set the vertices that make up this triangle.
+     *
+     * @param indicies the index numbers of three vertices in the Mesh vertex data structure
+     */
+    public void setVertexIndices(int[] indicies) {
+        for (int i = 0; i < 3; i++)
+            vertexIndices[i] = indicies[i];
     }
 
     /**
@@ -112,22 +112,22 @@ public class Triangle implements Cloneable {
     }
 
     /**
-     * Set the triangle normal
-     *
-     * @param normal the xyz components of the triangle normal
-     */
-    public void setTriangleNormal(double[] normal) {
-        for (int i=0; i<3; i++)
-            this.normal[i] = normal[i];
-    }
-
-    /**
      * Get the triangle normal (reference)
      *
      * @return the triangle normal
      */
     public double[] getTriangleNormal() {
         return normal;
+    }
+
+    /**
+     * Set the triangle normal
+     *
+     * @param normal the xyz components of the triangle normal
+     */
+    public void setTriangleNormal(double[] normal) {
+        for (int i = 0; i < 3; i++)
+            this.normal[i] = normal[i];
     }
 
     /**
@@ -159,11 +159,12 @@ public class Triangle implements Cloneable {
 
     /**
      * A new triangle is created which is a copy of the contents of this triangle.
+     *
      * @return a clone of this triangle
      */
     public Object clone() {
         Triangle res = new Triangle();
-        for (int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             res.vertexIndices[i] = vertexIndices[i];
             res.normal[i] = normal[i];
         }

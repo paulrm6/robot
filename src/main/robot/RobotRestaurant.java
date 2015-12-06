@@ -15,17 +15,17 @@ import java.awt.event.*;
  */
 
 public class RobotRestaurant extends Frame implements GLEventListener, ActionListener, ItemListener, MouseMotionListener {
+    public static final int FRAMES_PER_SEC = 30;
     private static final int WINDOW_WIDTH = 1000;
     private static final int WINDOW_HEIGHT = 1000;
     private static final float NEAR_CLIP = 0.1f;
     private static final float FAR_CLIP = 100.0f;
-    public static final int FRAMES_PER_SEC = 30;
     private Camera camera;
     private Point lastpoint;
     private RobotRestaurantScene scene;
     private GLCanvas canvas;
     private Checkbox worldLighting, robotLight, spotlight;
-    private boolean withWorldLighting = true, withRobotLight = true, robotPerspective = false, withSpotlight=true;
+    private boolean withWorldLighting = true, withRobotLight = true, robotPerspective = false, withSpotlight = true;
     private boolean continuousAnimation;
 
     public RobotRestaurant() {
@@ -91,6 +91,11 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         FPSAnimator animator = new FPSAnimator(canvas, FRAMES_PER_SEC);
         animator.start();
         canvas.addMouseMotionListener(this);
+    }
+
+    public static void main(String[] args) {
+        RobotRestaurant robotRestaurant = new RobotRestaurant();
+        robotRestaurant.setVisible(true);
     }
 
     @Override
@@ -162,7 +167,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         double theta = Math.toRadians(-90); // theta rotates anticlockwise around y axis
         double phi = Math.toRadians(5);  // phi is inclination from ground plane
         camera = new Camera(theta, phi, radius);
-        scene = new RobotRestaurantScene(gl,camera);
+        scene = new RobotRestaurantScene(gl, camera);
     }
 
     @Override
@@ -197,11 +202,6 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
 
     }
 
-    public static void main(String[] args) {
-        RobotRestaurant robotRestaurant =   new RobotRestaurant();
-        robotRestaurant.setVisible(true);
-    }
-
     /**
      * The mouse is used to control the camera position.
      *
@@ -210,13 +210,12 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     public void mouseDragged(MouseEvent e) {
         Point ms = e.getPoint();
 
-        float dx=(float) (ms.x-lastpoint.x)/WINDOW_WIDTH;
-        float dy=(float) (ms.y-lastpoint.y)/WINDOW_HEIGHT;
+        float dx = (float) (ms.x - lastpoint.x) / WINDOW_WIDTH;
+        float dy = (float) (ms.y - lastpoint.y) / WINDOW_HEIGHT;
 
-        if (e.getModifiers()==MouseEvent.BUTTON1_MASK) {
-            camera.updateThetaPhi(-dx*2.0f, dy*2.0f);
-        }
-        else if (e.getModifiers()==MouseEvent.BUTTON3_MASK) {
+        if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
+            camera.updateThetaPhi(-dx * 2.0f, dy * 2.0f);
+        } else if (e.getModifiers() == MouseEvent.BUTTON3_MASK) {
             camera.updateRadius(-dy);
         }
 
@@ -226,7 +225,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     /**
      * The mouse is used to control the camera position.
      *
-     * @param e  instance of MouseEvent, automatically supplied by the system when the user moves the mouse
+     * @param e instance of MouseEvent, automatically supplied by the system when the user moves the mouse
      */
     public void mouseMoved(MouseEvent e) {
         lastpoint = e.getPoint();

@@ -28,13 +28,13 @@ public class Restaurant {
         wallpaper = RobotRestaurantScene.loadTexture(gl, "wallpaper.jpg");
         floor = RobotRestaurantScene.loadTexture(gl, "woodFloor.jpg");
         ceiling = RobotRestaurantScene.loadTexture(gl, "ceiling.jpg");
-        meshSides = ProceduralMeshFactory.createPlane(height,depth,POINTS_X,POINTS_Y,TILES_X,TILES_Y);  // Create the mesh structure
+        meshSides = ProceduralMeshFactory.createPlane(height, depth, POINTS_X, POINTS_Y, TILES_X, TILES_Y);  // Create the mesh structure
         sides = new RenderMesh(meshSides, wallpaper);    // Create a new Render object for the mesh
         sides.initialiseDisplayList(gl, true);
-        meshEnds = ProceduralMeshFactory.createPlane(width,height,POINTS_X,POINTS_Y,TILES_X,TILES_Y);  // Create the mesh structure
+        meshEnds = ProceduralMeshFactory.createPlane(width, height, POINTS_X, POINTS_Y, TILES_X, TILES_Y);  // Create the mesh structure
         ends = new RenderMesh(meshEnds, wallpaper);    // Create a new Render object for the mesh
         ends.initialiseDisplayList(gl, true);
-        meshTB = ProceduralMeshFactory.createPlane(width,depth,POINTS_X,POINTS_Y,TILES_X,TILES_Y);  // Create the mesh structure
+        meshTB = ProceduralMeshFactory.createPlane(width, depth, POINTS_X, POINTS_Y, TILES_X, TILES_Y);  // Create the mesh structure
         top = new RenderMesh(meshTB, ceiling);    // Create a new Render object for the mesh
         top.initialiseDisplayList(gl, true);
         bottom = new RenderMesh(meshTB, floor);    // Create a new Render object for the mesh
@@ -44,37 +44,37 @@ public class Restaurant {
     public void render(GL2 gl) {
         //left wall
         gl.glPushMatrix();
-            gl.glTranslated(-width/2,height/2,0);
-            gl.glRotated(270,0,0,1);
-            sides.renderDisplayList(gl);
+        gl.glTranslated(-width / 2, height / 2, 0);
+        gl.glRotated(270, 0, 0, 1);
+        sides.renderDisplayList(gl);
         gl.glPopMatrix();
         //right wall
         gl.glPushMatrix();
-            gl.glTranslated(width/2,height/2,0);
-            gl.glRotated(90,0,0,1);
-            sides.renderDisplayList(gl);
+        gl.glTranslated(width / 2, height / 2, 0);
+        gl.glRotated(90, 0, 0, 1);
+        sides.renderDisplayList(gl);
         gl.glPopMatrix();
         //back wall
         gl.glPushMatrix();
-            gl.glTranslated(0,height/2,-depth/2);
-            gl.glRotated(90,1,0,0);
-            ends.renderDisplayList(gl);
+        gl.glTranslated(0, height / 2, -depth / 2);
+        gl.glRotated(90, 1, 0, 0);
+        ends.renderDisplayList(gl);
         gl.glPopMatrix();
         //front wall
         gl.glPushMatrix();
-            gl.glTranslated(0,height/2,depth/2);
-            gl.glRotated(270,1,0,0);
-            ends.renderDisplayList(gl);
+        gl.glTranslated(0, height / 2, depth / 2);
+        gl.glRotated(270, 1, 0, 0);
+        ends.renderDisplayList(gl);
         gl.glPopMatrix();
         //floor
         gl.glPushMatrix();
-            bottom.renderDisplayList(gl);
+        bottom.renderDisplayList(gl);
         gl.glPopMatrix();
         //ceiling
         gl.glPushMatrix();
-            gl.glTranslated(0,height,0);
-            gl.glRotated(180,1,0,0);
-            top.renderDisplayList(gl);
+        gl.glTranslated(0, height, 0);
+        gl.glRotated(180, 1, 0, 0);
+        top.renderDisplayList(gl);
         gl.glPopMatrix();
     }
 }

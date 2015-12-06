@@ -4,10 +4,10 @@ package robot;
  * A class for a camera.
  * The camera always remains 'upright' with respect to the world y axis.
  *
- * @author    Dr Steve Maddock
- * @version   1.0 (26/07/2013)
- *
- * Utilised by Paul MacDonald.
+ * @author Dr Steve Maddock
+ * @version 1.0 (26/07/2013)
+ * <p/>
+ * Utilised by Paul MacDonald. (UNEDITED)
  * prmacdonald1@sheffield.ac.uk
  * 1350155458
  */
@@ -55,7 +55,7 @@ public class Camera {
     /**
      * Increment the value of the radius which controls the distance of the camera from the world origin
      *
-     * @param radisInc Increment for radius
+     * @param radiusInc Increment for radius
      */
     public void updateRadius(double radiusInc) {
         radius += radiusInc;
