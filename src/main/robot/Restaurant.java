@@ -13,8 +13,7 @@ import com.jogamp.opengl.util.texture.Texture;
  */
 
 public class Restaurant {
-    private final int POINTS_X = 300, POINTS_Y = 300;
-    private final double TILES_X = 1, TILES_Y = 1;
+    private final double TILES_X = 4, TILES_Y = 4;
     private double h, w, d;
     private RenderMesh sides, ends, top, bottom;
 
@@ -37,21 +36,22 @@ public class Restaurant {
     public void create(GL2 gl) {
         //Set the textures
         Texture wallpaper = RobotRestaurantScene.loadTexture(gl, "wallpaper.jpg");
-        Texture floor = RobotRestaurantScene.loadTexture(gl, "woodFloor.jpg");
+        Texture floor = RobotRestaurantScene.loadTexture(gl, "checkerfloor.jpg");
         Texture ceiling = RobotRestaurantScene.loadTexture(gl, "ceiling.jpg");
         //Create the sides
-        Mesh meshSides = ProceduralMeshFactory.createPlane(h, d, POINTS_X, POINTS_Y, TILES_X, TILES_Y); //creates a mesh
+        Mesh meshSides = ProceduralMeshFactory.createPlane(h, d, 250, 250, TILES_X, TILES_Y); //creates a mesh
         sides = new RenderMesh(meshSides, wallpaper); //creates a new render object
         sides.initialiseDisplayList(gl, true);
         //Create the ends
-        Mesh meshEnds = ProceduralMeshFactory.createPlane(w, h, POINTS_X, POINTS_Y, TILES_X, TILES_Y); //creates a mesh
+        Mesh meshEnds = ProceduralMeshFactory.createPlane(w, h, 250, 250, TILES_X, TILES_Y); //creates a mesh
         ends = new RenderMesh(meshEnds, wallpaper); //creates a new render object
         ends.initialiseDisplayList(gl, true);
         //Create the ceiling and floor
-        Mesh meshTB = ProceduralMeshFactory.createPlane(w, d, POINTS_X, POINTS_Y, TILES_X, TILES_Y); //creates a mesh
-        top = new RenderMesh(meshTB, ceiling); //creates a new render object
+        Mesh meshTop = ProceduralMeshFactory.createPlane(w, d, 100, 100, TILES_X, TILES_Y); //creates a mesh
+        top = new RenderMesh(meshTop, ceiling); //creates a new render object
         top.initialiseDisplayList(gl, true);
-        bottom = new RenderMesh(meshTB, floor); //creates a new render object
+        Mesh meshFloor = ProceduralMeshFactory.createPlane(w, d, 500, 500, TILES_X, TILES_Y); //creates a mesh
+        bottom = new RenderMesh(meshFloor, floor); //creates a new render object
         bottom.initialiseDisplayList(gl, true);
     }
 
