@@ -35,9 +35,9 @@ public class Restaurant {
      */
     public void create(GL2 gl) {
         //Set the textures
-        Texture wallpaper = RobotRestaurantScene.loadTexture(gl, "wallpaper.jpg");
-        Texture floor = RobotRestaurantScene.loadTexture(gl, "checkerfloor.jpg");
-        Texture ceiling = RobotRestaurantScene.loadTexture(gl, "ceiling.jpg");
+        Texture wallpaper = RobotRestaurantScene.loadTexture(gl, "texture/wallpaper.jpg");
+        Texture floor = RobotRestaurantScene.loadTexture(gl, "texture/checkerfloor.jpg");
+        Texture ceiling = RobotRestaurantScene.loadTexture(gl, "texture/ceiling.jpg");
         //Create the sides
         Mesh meshSides = ProceduralMeshFactory.createPlane(h, d, 250, 250, TILES_X, TILES_Y); //creates a mesh
         sides = new RenderMesh(meshSides, wallpaper); //creates a new render object
