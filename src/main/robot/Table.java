@@ -38,7 +38,7 @@ public class Table {
      */
     public void create(GL2 gl) {
         //Load the table texture
-        Texture table = RobotRestaurantScene.loadTexture(gl, "texture/table.jpg");
+        Texture table = RobotRestaurantScene.loadTexture(gl, "textures/table.jpg");
         //Create the table top
         Mesh meshCube = ProceduralMeshFactory.createHardCube();
         cube = new RenderMesh(meshCube, table); //Create a new render object
