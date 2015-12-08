@@ -182,9 +182,9 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);//Front and back facing polygons should be filled
         gl.glEnable(GL2.GL_LIGHTING);//Lighting will be used
         gl.glEnable(GL2.GL_NORMALIZE);//Vectors with glNormal are scaled to unit length after transformation
-        double radius = 50.0; //distance of the camera from world origin
+        double radius = 35.0; //distance of the camera from world origin
         double theta = Math.toRadians(-90); // theta rotates anticlockwise around y axis
-        double phi = Math.toRadians(5);  // phi is inclination from ground plane
+        double phi = Math.toRadians(10);  // phi is inclination from ground plane
         camera = new Camera(theta, phi, radius); //initiate a camera
         scene = new RobotRestaurantScene(gl, camera); //initiate a scene
     }
@@ -254,7 +254,7 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
         if (e.getModifiers() == MouseEvent.BUTTON1_MASK) {
             camera.updateThetaPhi(-dx * 2.0f, dy * 2.0f);
         } else if (e.getModifiers() == MouseEvent.BUTTON3_MASK) {
-            camera.updateRadius(-dy);
+            camera.updateRadius(-dy*20);
         }
 
         lastpoint = ms;

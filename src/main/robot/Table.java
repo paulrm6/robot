@@ -44,7 +44,7 @@ public class Table {
         cube = new RenderMesh(meshCube, table); //Create a new render object
         cube.initialiseDisplayList(gl,true);
         //Create a leg of the table
-        Mesh meshTableTop = ProceduralMeshFactory.createPlane(w, d, 100, 100, 1, 1);
+        Mesh meshTableTop = ProceduralMeshFactory.createPlane(w, d, 100, 100, 2, 2);
         tableTop = new RenderMesh(meshTableTop, table); //Create a new render object
         tableTop.initialiseDisplayList(gl, true);
     }
