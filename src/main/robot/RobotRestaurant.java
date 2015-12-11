@@ -270,7 +270,8 @@ public class RobotRestaurant extends Frame implements GLEventListener, ActionLis
     }
 
     public static void main(String[] args) {
-        RobotRestaurant robotRestaurant = new RobotRestaurant();
-        robotRestaurant.setVisible(true);
+        System.out.println((long) (Math.random()*90000000+10000000));
+        //RobotRestaurant robotRestaurant = new RobotRestaurant();
+        //robotRestaurant.setVisible(true);
     }
 }
